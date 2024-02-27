@@ -3,6 +3,7 @@ let stockPrices = [];
 let song; // Variable to hold the song
 let bgImage; // Variable to hold the background image
 let pauseSong;
+let musicTime;
 let tableExample; // example of CSV
 let currentScene = 1; // Start with scene 1
 
@@ -14,6 +15,7 @@ function preload() {
   // Load the song
   song = loadSound('short-test.mp3');
   pauseSong = loadSound('pause.mp3');
+  musicTime = loadSound('music.mp3');
   // Load the background image, replace 'background.jpg' with your image file path
   bgImage = loadImage('splash.png');
 
@@ -43,11 +45,16 @@ function setup() {
 
   select('#scene1Button').mousePressed(() => {
         currentScene = 1;
+        song.play();
+        musicTime.stop();
     });
     // Button for switching to scene 2
     select('#scene2Button').mousePressed(() => {
         currentScene = 2;
+        song.stop();
+        musicTime.play();
     });
+    song.play();
 }
 
 function draw() {
