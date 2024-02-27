@@ -2,10 +2,15 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
 }
 canvas {
   display: block;
+}
+/* Simple CSS to layout buttons */
+#buttonContainer {
+  text-align: center;
+  margin-top: 10px;
 }
