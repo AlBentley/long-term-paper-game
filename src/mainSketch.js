@@ -1,3 +1,58 @@
+let companies = [
+  {
+    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+    description:'A software company with global....',
+  },
+  {
+    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+    description:'A software company with global....',
+  },
+  {
+    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+    description:'A software company with global....',
+  },
+  {
+    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+    description:'A software company with global....',
+  },
+  {
+    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+    description:'A software company with global....',
+  },
+  ];
+
+let fairValues = [
+{
+  fv:10, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+  r:0,
+  e:0,
+  pe:0,
+},
+{
+  fv:12,
+  r:0,
+  e:0,
+  pe:0,
+},
+{
+  fv:0,
+  r:0,
+  e:0,
+  pe:0,
+},
+{
+  fv:0,
+  r:0,
+  e:0,
+  pe:0,
+},
+{
+  fv:0,
+  r:0,
+  e:0,
+  pe:0,
+},
+];
 let bgImg;
 let stockPrices = [];
 let song; // Variable to hold the song
@@ -54,15 +109,26 @@ function setup() {
         song.stop();
         musicTime.play();
     });
+
+    // Button for switching to scene 2
+    select('#scene3Button').mousePressed(() => {
+      currentScene = 3;
+      song.stop();
+      musicTime.stop();
+  });
+
+
     song.play();
 }
 
 function draw() {
 
   if (currentScene === 1) {
-      drawDecisionScene();
+    drawDecisionScene();
   } else if (currentScene === 2) {
     drawTimeLine();
+  } else if (currentScene === 3) {
+    drawNarrative();
   }
 
 
