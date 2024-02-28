@@ -29,11 +29,11 @@ function drawNarrative() {
   } else if (inputFieldsCreated) {
     inputContainer.show(); //Show input fields if narrativeScene is being reDrawn
   }
+
+
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+
 
 function createInputFields() {
   companies.forEach((company, index) => {

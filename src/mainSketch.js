@@ -61,7 +61,14 @@ let bgImage; // Variable to hold the background image
 let pauseSong;
 let musicTime;
 let tableExample; // example of CSV
-let currentScene = 1; // Start with scene 1
+let currentScene = 2; // Start with scene 1
+
+let isPlaying = true;
+let nextChangeTime = 0;
+let gameFinished = false; // Flag to indicate if the game has finished
+let bankBalance = 100000; // Initial bank balance
+
+let currentDate = new Date(1995, 0, 1);
 
 
 function preload() {
@@ -87,11 +94,12 @@ function loadData(data) {
 
 
 function setup() {
+
   //createCanvas(windowWidth, windowHeight);
   noSmooth(); // This disables anti-aliasing, making the line pixelated
 
   createCanvas(800, 600);
-  currentDate = new Date(1980, 0, 1); // January 1, 1980
+  
   textFont('Courier New'); // Monospace font for uniform character spacing
   textSize(12); // Larger size for readability
   textAlign(LEFT, TOP);
@@ -103,13 +111,13 @@ function setup() {
   select('#scene1Button').mousePressed(() => {
         currentScene = 1;
         song.play();
-        musicTime.stop();
+        //musicTime.stop();
     });
     // Button for switching to scene 2
     select('#scene2Button').mousePressed(() => {
         currentScene = 2;
         song.stop();
-        musicTime.play();
+        //musicTime.play();
     });
 
     // Button for switching to scene 2
@@ -119,7 +127,7 @@ function setup() {
       musicTime.stop();
   });
 
-    song.play();
+    //song.play();
 }
 
 function draw() {

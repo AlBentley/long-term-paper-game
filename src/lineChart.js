@@ -15,10 +15,22 @@ function drawLineChart(data, xPos, yPos, wSize, hSize) {
     //marketvalue [i+1] = random[i];
     if (marketvalue[i] >= marketvalue[i+1]) {
       stroke(0,255,0); 
+      fill(0,255,0); 
     } else {
       stroke(255, 0,0);
+      fill(255, 0,0);
     }
     line(xPos + i*5, yPos + marketvalue[i] ,
          xPos + i*5 + 5, yPos + marketvalue[i+1]);
+    
+    if(i == (wSize/5) - 1){
+      strokeWeight (0);
+      textSize(12); // Text size for instructions
+      textAlign(LEFT, CENTER);
+      text("$" + marketvalue[i].toFixed(2).toString(), xPos + i*5 + 15, yPos + marketvalue[i+1]);
     }
+
+    }
+
+    
 }
