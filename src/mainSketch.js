@@ -98,8 +98,9 @@ let lastEvent= { //remove this once we tidy up the UI
 
 
 let tableExample; // example of CSV
-let currentScene = 2; // Start with scene 1
+let currentScene = 5; // Start with scene 1
 let currentEventScene = 'description';
+let currentIntroScene = 'splash';
 let isPlaying = true;
 let nextChangeTime = 0;
 let gameFinished = false; // Flag to indicate if the game has finished
@@ -125,6 +126,8 @@ function preload() {
   musicTime = loadSound('music.mp3');
   // Load the background image, replace 'background.jpg' with your image file path
   bgImage = loadImage('splash.png');
+  bgBoss = loadImage('boss.png');
+  introImage = loadImage('splash.jpg');
   eventImage = loadImage('event.png');
 
 
@@ -194,9 +197,51 @@ function draw() {
     drawNarrative();
   } else if (currentScene === 4) {
     drawEvent(lastEvent);
+  } else if (currentScene === 5) {
+    drawIntro();
+  }
 }
-
-
+function keyPressed() {
+    if (keyCode === 32) { // Space bar
+    if (!gameFinished) {
+      isPlaying = !isPlaying;
+      if (isPlaying && !song.isPlaying()) {
+        song.loop(); // Play the song if the game is playing
+      } else if (!isPlaying && song.isPlaying()) {
+        pauseSong.play();
+        song.pause(); // Pause the song if the game is paused  
+      }
+    } else {
+      resetGame();
+    }
+  } else if (currentScene === 4) { //key handler for Event scene
+    //handle keyboard entry for events
+    if (keyCode === RIGHT_ARROW && currentEventScene === 'description') {
+      currentEventScene = 'financials'; // Switch to financials view
+      pageSong.play();
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'financials') {
+      currentEventScene = 'description'; // Switch back to description view
+      pageSong.play();
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'narrative') {
+      currentEventScene = 'financials'; // Switch back to description view
+      pageSong.play();
+    } else if (keyCode === RIGHT_ARROW && currentEventScene === 'financials') {
+      currentScene = 2;
+      currentEventScene = 'description';
+      eventSong.stop();
+    } else if (key === 'U' || key === 'u') {
+      drawNarrative();
+    } else if (keyCode === ESCAPE) {
+      hideNarrative();
+    }
+  } else if (currentScene === 5) { //key handler for introduction splash screen
+    
+    if (currentIntroScene === 'splash') { 
+      currentIntroScene = 'intro';
+    } else if (currentIntroScene === 'intro') {
+      currentScene = 2;
+    }
+  }
 }
 
 // function windowResized() {

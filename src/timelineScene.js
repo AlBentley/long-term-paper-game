@@ -28,7 +28,7 @@ function drawTimeLine() {
   incrementDate();
 
   // Update the stockPrices array to simulate the chart moving over time
-  updatePrices();
+  // updatePrices();
 
    // Set up black background for date
    fill(0); // Black fill
@@ -118,43 +118,6 @@ function drawStocks(rowIndex){
   }
 }
 
-
-function keyPressed() {
-  if (keyCode === 32) { // Space bar
-    if (!gameFinished) {
-      isPlaying = !isPlaying;
-      if (isPlaying && !song.isPlaying()) {
-        song.loop(); // Play the song if the game is playing
-      } else if (!isPlaying && song.isPlaying()) {
-        pauseSong.play();
-        song.pause(); // Pause the song if the game is paused  
-      }
-    } else {
-      resetGame();
-    }
-  } else if (currentScene === 4) {
-    //handle keyboard entry for events
-    if (keyCode === RIGHT_ARROW && currentEventScene === 'description') {
-      currentEventScene = 'financials'; // Switch to financials view
-      pageSong.play();
-    } else if (keyCode === LEFT_ARROW && currentEventScene === 'financials') {
-      currentEventScene = 'description'; // Switch back to description view
-      pageSong.play();
-    } else if (keyCode === LEFT_ARROW && currentEventScene === 'narrative') {
-      currentEventScene = 'financials'; // Switch back to description view
-      pageSong.play();
-    } else if (keyCode === RIGHT_ARROW && currentEventScene === 'financials') {
-      currentScene = 2;
-      currentEventScene = 'description';
-      eventSong.stop();
-    } else if (key === 'U' || key === 'u') {
-      drawNarrative();
-    } else if (keyCode === ESCAPE) {
-      hideNarrative();
-    }
-  }
-}
-
 function incrementDate(){
   if (!gameFinished) {
     if (isPlaying && millis() > nextChangeTime) {
@@ -177,12 +140,12 @@ function incrementDay() {
     reviewPortfolio(rowIndex);
   }
 
+  //check if there is an event and if there is display EventScene
   let matchingEvent = eventsJSON.events.find(event => event.date == formatDate(currentDate));
-  if (matchingEvent) {
+  if (matchingEvent && currentScene != 4) {
+    eventSong.play();
     lastEvent=matchingEvent;
     currentScene = 4;
-  } else {
-    console.log("No event found for current game date.");
   }
 
 
@@ -238,4 +201,44 @@ function formatDate(date) {
 
   // Concatenate the parts together with dashes
   return `${year}-${month}-${day}`;
+}
+
+function keyPressed() {
+  if (keyCode === 32) { // Space bar
+    if (!gameFinished) {
+      isPlaying = !isPlaying;
+      if (isPlaying && !song.isPlaying()) {
+        song.loop(); // Play the song if the game is playing
+      } else if (!isPlaying && song.isPlaying()) {
+        pauseSong.play();
+        song.pause(); // Pause the song if the game is paused  
+      }
+    } else {
+      resetGame();
+    }
+  } else if (currentScene === 4) { //key handler for Event scene
+    //handle keyboard entry for events
+    if (keyCode === RIGHT_ARROW && currentEventScene === 'description') {
+      currentEventScene = 'financials'; // Switch to financials view
+      pageSong.play();
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'financials') {
+      currentEventScene = 'description'; // Switch back to description view
+      pageSong.play();
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'narrative') {
+      currentEventScene = 'financials'; // Switch back to description view
+      pageSong.play();
+    } else if (keyCode === RIGHT_ARROW && currentEventScene === 'financials') {
+      currentScene = 2;
+      currentEventScene = 'description';
+      eventSong.stop();
+    } else if (key === 'U' || key === 'u') {
+      drawNarrative();
+    } else if (keyCode === ESCAPE) {
+      hideNarrative();
+    }
+  } else if (currentScene === 5) { //key handler for introduction splash screen
+    if (currentIntroScene === 'splash') { 
+      currentIntroScene === 'intro';
+    }
+  }
 }
