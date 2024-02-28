@@ -66,9 +66,13 @@ function drawPortfolio(rowIndex){
   //header
   table[0] = ["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
 
+
+  bankBalance = 0;
+
   for (var i = 0; i < companies.length ; i++) { 
 
     let holding = fairValues[i].amount_invested;
+    bankBalance += holding;
 
     let last_price = parseFloat(companyPricesCSV.getColumn(companies[i].name)[rowIndex]);
 
@@ -82,6 +86,7 @@ function drawPortfolio(rowIndex){
 
 
     let discount = (fairValues[i].fv - last_price)/ fairValues[i].fv * 100;
+    fairValues[i].discount = discount/100;
 
     //["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
     table[i+1] = [companies[i].name,

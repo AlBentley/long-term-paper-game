@@ -2,28 +2,38 @@ function reviewPortfolio(rowIndex){
     console.log("reviewing PF");
 
     let discounts = [];
+    let holdings_target = [];
 
     for (var i = 0; i < companies.length ; i++) { 
 
-        let last_price = parseFloat(companyPricesCSV.getColumn(companies[i].name)[rowIndex]);
-    
-        discounts[i] = (fairValues[i].fv - last_price)/ fairValues[i].fv * 100;
+        discounts[i] = fairValues[i].discount;
         
       };
-      debugger
+    
     let weightings = updateWeightings(discounts);
 
     console.log(weightings);
 
+    //calculate transactions
+    // for (var i = 0; i < companies.length ; i++) { 
+    //     holdings_target.push(weightings[i] * fairValues[i].amount_invested);
+    // }
+    
+    holdings_target = weightings.map(function(x) {x * bankBalance});
+
+    console.log(holdings_target);
+
+
+
+}
+
+function getSum(total, num) {
+    return total + num;
 }
 
 function updateWeightings(discounts){
 
     //let discounts = [0.14,-0.05,-0.69,0.07,-0.24];
-    
-    function getSum(total, num) {
-        return total + num;
-    }
     
     //calc weights
     let weights = [];

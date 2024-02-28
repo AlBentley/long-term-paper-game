@@ -29,49 +29,54 @@ let companies = [
 
 let fairValues = [
 {
-  fv:10, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+  fv:100, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
   r:0,
   e:0,
   pe:0,
   avg_price: 77,
-  amount_invested: 0,
-  capital_gain: 0
+  amount_invested: 3240,
+  capital_gain: 0,
+  discount: 0
 },
 {
-  fv:12,
+  fv:120,
   r:0,
   e:0,
   pe:0,
   avg_price: 3,
-  amount_invested: 0,
-  capital_gain: 0
+  amount_invested: 2350,
+  capital_gain: 0,
+  discount: 0
 },
 {
-  fv:70,
+  fv:110,
   r:0,
   e:0,
   pe:0,
   avg_price: 64,
-  amount_invested: 0,
-  capital_gain: 0
+  amount_invested: 1230,
+  capital_gain: 0,
+  discount: 0
 },
 {
-  fv:990,
+  fv:190,
   r:0,
   e:0,
   pe:0,
   avg_price: 534,
-  amount_invested: 0,
-  capital_gain: 0
+  amount_invested: 1230,
+  capital_gain: 0,
+  discount: 0
 },
 {
-  fv:5,
+  fv:200,
   r:0,
   e:0,
   pe:0,
   avg_price: 123,
-  amount_invested: 0,
-  capital_gain: 0
+  amount_invested: 4120,
+  capital_gain: 0,
+  discount: 0
 },
 ];
 let bgImg;
@@ -98,7 +103,7 @@ let lastEvent= { //remove this once we tidy up the UI
 
 
 let tableExample; // example of CSV
-let currentScene = 5; // Start with scene 1
+let currentScene = 2; // Start with scene 1
 let currentEventScene = 'description';
 let currentIntroScene = 'splash';
 let isPlaying = true;
