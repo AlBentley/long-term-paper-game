@@ -55,8 +55,24 @@ function drawTimeLine() {
 
   drawStocks(rowIndex);
 
-  
+  drawUpdateLog();
  
+}
+
+function drawUpdateLog(){
+
+  fill(255); // White text for visibility
+  strokeWeight(0);
+  textSize(8); // Text size for instructions
+  textAlign(LEFT, TOP); // Reset alignment for other text
+
+  for (var i = 0; i < 10 ; i++) { 
+
+    let txt = tradeLog[i];
+    text(txt, 150, 340 - (i * 12));
+    
+  };
+
 }
 
 function drawPortfolio(rowIndex){
@@ -64,7 +80,7 @@ function drawPortfolio(rowIndex){
   let table = [];
 
   //header
-  table[0] = ["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
+  table[0] = ["Stock", "Holding", "Gain", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
 
 
   bankBalance = 0;
@@ -75,6 +91,12 @@ function drawPortfolio(rowIndex){
     bankBalance += holding;
 
     let last_price = parseFloat(companyPricesCSV.getColumn(companies[i].name)[rowIndex]);
+    companies[i].latestPrice = last_price;
+
+    let no_shares = fairValues[i].amount_invested / fairValues[i].avg_price;
+
+    let current_value = no_shares * last_price;
+    fairValues[i].current_value = current_value;
 
     let total_return = last_price/fairValues[i].avg_price * 100; //fairValues[i].capital_gain;
 
@@ -90,11 +112,12 @@ function drawPortfolio(rowIndex){
 
     //["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
     table[i+1] = [companies[i].name,
-                  "$" + holding.toString(),
+                  "$" + holding.toFixed(0).toString(),
+                  "$" + (current_value-holding).toFixed(0).toString(),
                   total_return.toFixed(0).toString() + "%", 
                   monthReturn.toFixed(0).toString() + "%",
-                  "$" + FV.toString(),
-                  "$" + last_price.toString(),
+                  "$" + FV.toFixed(0).toString(),
+                  "$" + last_price.toFixed(0).toString(),
                   discount.toFixed(0).toString() + "%"];
 
   };

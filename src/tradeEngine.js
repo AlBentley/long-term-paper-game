@@ -19,11 +19,50 @@ function reviewPortfolio(rowIndex){
     //     holdings_target.push(weightings[i] * fairValues[i].amount_invested);
     // }
     
-    holdings_target = weightings.map(function(x) {x * bankBalance});
+    holdings_target = weightings.map(function(x) {return max(x * bankBalance, 0)});
 
     console.log(holdings_target);
 
+    for (var i = 0; i < companies.length ; i++) { 
+        let diff = holdings_target[i] - fairValues[i].amount_invested;
 
+        if(diff != 0){                                                                                                                                                     
+            
+            let sharePrice = companies[i].latestPrice
+            let numShares = round(diff / sharePrice);
+            let existingShares = round(fairValues[i].amount_invested / fairValues[i].avg_price);
+
+            numShares = max(existingShares + numShares, 0); // can't sell more than you own
+
+            if(numShares === 0) {continue;} //skip if nothing happening
+
+            let gain = 0;
+
+            let updateText = (diff > 0 ? "Buy " : "Sell ") + numShares.toFixed(0) + " at $" + sharePrice.toFixed(2);
+
+            if(diff < 0){
+                //selling!
+                gain = numShares * (sharePrice - fairValues[i].avg_price);
+
+                //add to capital gain/ loss
+                fairValues[i].capital_gain += gain;
+
+                updateText += " (" + (gain > 0 ? "Gain" : "Loss") + " of $" + gain.toFixed(0) + ")";
+                
+            }
+            
+            //update holding
+            fairValues[i].amount_invested += diff;
+
+            //update avg_price
+            fairValues[i].avg_price = (existingShares * fairValues[i].avg_price) + (numShares * sharePrice) / (existingShares + numShares);
+
+            tradeLog.unshift(updateText);
+            console.log(updateText);
+
+
+        }
+    }
 
 }
 

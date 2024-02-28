@@ -35,6 +35,7 @@ let fairValues = [
   pe:0,
   avg_price: 77,
   amount_invested: 3240,
+  current_value: 0,
   capital_gain: 0,
   discount: 0
 },
@@ -45,6 +46,7 @@ let fairValues = [
   pe:0,
   avg_price: 3,
   amount_invested: 2350,
+  current_value: 0,
   capital_gain: 0,
   discount: 0
 },
@@ -55,6 +57,7 @@ let fairValues = [
   pe:0,
   avg_price: 64,
   amount_invested: 1230,
+  current_value: 0,
   capital_gain: 0,
   discount: 0
 },
@@ -65,6 +68,7 @@ let fairValues = [
   pe:0,
   avg_price: 534,
   amount_invested: 1230,
+  current_value: 0,
   capital_gain: 0,
   discount: 0
 },
@@ -75,6 +79,7 @@ let fairValues = [
   pe:0,
   avg_price: 123,
   amount_invested: 4120,
+  current_value: 0,
   capital_gain: 0,
   discount: 0
 },
