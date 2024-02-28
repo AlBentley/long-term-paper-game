@@ -2,27 +2,27 @@ let companies = [
   {
     name:'Company A', 
     description:'Description of company....',
-    latestPrice: [],
+    latestPrice: [0,],
   },
   {
     name:'Company B', 
     description:'Description of company....',
-    latestPrice: [],
+    latestPrice: [0,],
   },
   {
     name:'Company C', 
     description:'Description of company....',
-    latestPrice: [],
+    latestPrice: [0,],
   },
   {
     name:'Company D', 
     description:'Description of company....',
-    latestPrice: [],
+    latestPrice: [0,],
   },
   {
     name:'Company E', 
     description:'Description of company....',
-    latestPrice: [],
+    latestPrice: [0,],
   },
   ];
 

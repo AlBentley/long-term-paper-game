@@ -19,7 +19,7 @@ function updateLatestStockPrice(){
               company.latestPrice.shift(); // Removes the first element from the array
             }
           });
-          console.log('Companies',companies);
+          console.log('Stock Prices Updated (to delete)',companies);
           break; // Exit the loop once the date is found and prices are updated
         }
       }
