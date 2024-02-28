@@ -1,27 +1,27 @@
 let inputContainer;
 let companies = [
   {
-    name:'Company1', 
+    name:'TreadMaster Corp', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company2', 
+    name:'HealthCare Haven', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company3', 
+    name:'DrillTech Industries', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company4', 
+    name:'Pharama Industries', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company5', 
+    name:'Smart Mart', 
     description:'Description of company....',
     latestPrice: [0,],
   },
@@ -108,7 +108,7 @@ let lastEvent= { //remove this once we tidy up the UI
 
 
 let tableExample; // example of CSV
-let currentScene = 2; // Start with scene 1
+let currentScene = 5; // Start with scene 1
 let currentEventScene = 'description';
 let currentIntroScene = 'splash';
 let isPlaying = true;
