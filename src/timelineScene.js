@@ -25,25 +25,31 @@ function setupTimeLine() {
 function drawTimeLine() {
   background(bgImg);
   
-//   stroke(255, 0, 0); // Red color for the stock price line
-//   noFill();
-//   beginShape();
+  //increment date
+  incrementDate();
 
+  // Update the stockPrices array to simulate the chart moving over time
+  updatePrices();
 
-//   for (let i = currentIndex; i < currentIndex + 25; i++) {
-//     let x = map(i, 0, stockPrices.length - 1, 0, width); // Distribute points along the width
-//     let y = map(stockPrices[i], 0, Math.max(...stockPrices), height, 0); // Adjust based on stock price
-//     vertex(x, y);
-//   }
-//   endShape();
+   // Set up black background for date
+   fill(0); // Black fill
+   noStroke(); // No border
+   rect(0, 0, 200, 45); // Adjust size as needed for the date display
+
+   // Display the date
+   fill(255, 0, 0); // Red color for the "alarm clock" effect
+   displayDate();
+
+   // Display bank balance
+   displayBankBalance();
+   
+   // Display instruction with a background in the middle bottom
+   //displayInstruction();
 
   //draw chart
-  drawBarChart(tableExample, 160, 120, 300, 160);
+  //drawBarChart(tableExample, 160, 120, 300, 160);
 
-  drawLineChart(null, 450, 120, 180, 160);
-
- // Update the stockPrices array to simulate the chart moving over time
- updatePrices();
+  drawLineChart(null, 400, 120, 180, 160);
  
 }
 
@@ -58,6 +64,85 @@ function updatePrices() {
   // Optionally, you could add logic here to fetch new data points dynamically
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+function keyPressed() {
+  if (keyCode === 32) { // Space bar
+    if (!gameFinished) {
+      isPlaying = !isPlaying;
+      if (isPlaying && !song.isPlaying()) {
+        song.loop(); // Play the song if the game is playing
+      } else if (!isPlaying && song.isPlaying()) {
+        pauseSong.play();
+        song.pause(); // Pause the song if the game is paused  
+      }
+    } else {
+      resetGame();
+    }
+  }
+}
+
+function incrementDate(){
+  if (!gameFinished) {
+    if (isPlaying && millis() > nextChangeTime) {
+      incrementDay();
+      nextChangeTime = millis() + 50; // Next increment in 0.5 seconds
+    }
+   
+  } else {
+    //displayFinishMessage();
+    if (song.isPlaying()) {
+      song.pause(); // Pause the song when the game finishes
+    }
+  }
+  
+}
+
+function incrementDay() {
+  currentDate.setDate(currentDate.getDate() + 1);
+
+  if(currentDate.getDate() == 1) {  //first day of every month
+    reviewPortfolio();
+  }
+
+  if (currentDate >= new Date(2005, 0, 1)) {
+    gameFinished = true;
+  }
+}
+
+function displayDate() {
+  textSize(24); // Reset text size for the date display
+  text(currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), 10, 10);
+}
+
+function displayInstruction() {
+  fill(50); // Dark grey background for contrast
+  rect(width / 2 - 110, height - 40, 220, 30); // Positioning in the middle bottom
+  fill(255); // White text for visibility
+  textSize(16); // Text size for instructions
+  textAlign(CENTER, CENTER);
+  text(isPlaying ? "Hit space to pause" : "Hit space to continue", width / 2, height - 25);
+  textAlign(LEFT, TOP); // Reset alignment for other text
+}
+
+function displayBankBalance() {
+  fill(0); // Black background for bank balance
+  noStroke();
+  rect(width - 150, 10, 140, 50); // Position and size for the bank balance
+  fill(255); // White text
+  textSize(16); // Smaller text for the bank balance
+  text(`$${bankBalance.toLocaleString()}`, width - 140, 20);
+  textSize(14); // Even smaller text for "Cash" label
+  text('Cash', width - 140, 40);
+}
+
+
+function displayFinishMessage() {
+  textSize(32);
+  fill(255); // White color for the text
+  text("Game Finished", width / 2 - 100, height / 2);
+}
+
+function resetGame() {
+  currentDate = new Date(1995, 0, 1);
+  gameFinished = false;
+  isPlaying = false;
 }

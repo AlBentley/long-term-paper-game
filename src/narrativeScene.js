@@ -17,11 +17,11 @@ function drawNarrative() {
     createInputFields();
     inputFieldsCreated = true; // Prevent further calls
   }
+
+
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+
 
 function createInputFields() {
   companies.forEach((company, index) => {
