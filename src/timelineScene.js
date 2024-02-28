@@ -139,6 +139,26 @@ function keyPressed() {
     } else {
       resetGame();
     }
+  } else if (currentScene === 4) {
+    //handle keyboard entry for events
+    if (keyCode === RIGHT_ARROW && currentEventScene === 'description') {
+      currentEventScene = 'financials'; // Switch to financials view
+      pageSong.play();
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'financials') {
+      currentEventScene = 'description'; // Switch back to description view
+      pageSong.play();
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'narrative') {
+      currentEventScene = 'financials'; // Switch back to description view
+      pageSong.play();
+    } else if (keyCode === RIGHT_ARROW && currentEventScene === 'financials') {
+      currentScene = 2;
+      currentEventScene = 'description';
+      eventSong.stop();
+    } else if (key === 'U' || key === 'u') {
+      drawNarrative();
+    } else if (keyCode === ESCAPE) {
+      hideNarrative();
+    }
   }
 }
 
@@ -155,7 +175,6 @@ function incrementDate(){
       song.pause(); // Pause the song when the game finishes
     }
   }
-  
 }
 
 function incrementDay() {
@@ -164,6 +183,15 @@ function incrementDay() {
   if(currentDate.getDate() == 1) {  //first day of every month
     reviewPortfolio();
   }
+
+  let matchingEvent = eventsJSON.events.find(event => event.date == formatDate(currentDate));
+  if (matchingEvent) {
+    lastEvent=matchingEvent;
+    currentScene = 4;
+  } else {
+    console.log("No event found for current game date.");
+  }
+
 
   if (currentDate >= new Date(2005, 0, 1)) {
     gameFinished = true;

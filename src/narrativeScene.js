@@ -30,8 +30,6 @@ function drawNarrative() {
   } else if (inputFieldsCreated) {
     inputContainer.show(); //Show input fields if narrativeScene is being reDrawn
   }
-
-
 }
 
 
@@ -75,13 +73,9 @@ function updateFairValues() {
       fairValues[index].fv = value; // Update the fair value at the corresponding index
     }
   });
+  hideNarrative()
+}
 
-  currentScene = 2
+function hideNarrative() {
   inputContainer.hide();
-
-  // Optional: Log the updated fairValues array to console for verification
-  console.log(fairValues);
-
-  // Here you can also add any other logic you need after updating the fairValues, 
-  // such as re-rendering parts of your interface or saving the updated values somewhere.
 }

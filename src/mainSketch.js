@@ -76,14 +76,30 @@ let fairValues = [
 ];
 let bgImg;
 let stockPrices = [];
+let eventsJSON = [];
 let companyPricesCSV; //Global variable for prices CSV
 let song; // Variable to hold the song
 let bgImage; // Variable to hold the background image
 let pauseSong;
+let pageSong;
+let eventSong;
 let musicTime;
+let lastEvent= { //remove this once we tidy up the UI
+  date: "1995-10-01",
+  company: "Company A",
+  eventName: "Company A Q3 Update",
+  sharePrice: "$124.50",
+  description: "IBM has continued to aggressively restructure its worldwide business operations to improve its competitive position within a rapidly changing market for information technology products and services. Industry demand has slowed in recent years, and the industry continues to suffer from excess capacity and sluggish economic growth, particularly in Europe and Japan. The company's recent business results reflect these realities, as well as an ongoing revenue shift to offerings with lower gross profit margins, such as services and personal computers. During 1993, a number of actions were announced to \"right-size\" the company. These actions, including reductions in the company's worldwide work force, office space, capacity and related expenses, are intended to bring the company's cost and expense structure in line with industry levels. They were based on the company's assumptions of future industry demand and revenue growth. If these assumptions prove correct, the company believes it will be  able to absorb, without resorting to additional special charges, the costs  associated with any future productivity improvements. If the company's current  view of future industry revenue and demand proves incorrect, the company will  have to take further actions. The company's management strategy also shifted in  1993 from the establishment of increasingly autonomous business units--an  emerging federation of companies--to remaining an integrated provider of  information technology",
+  financials: {
+    revenue: [1200, 1300, 1250, 1280, 1320, 1350, 1400, 1450, 1500, 1550, 1600, 1650],
+    earnings: [200, 210, 205, 215, 220, 225, 230, 235, 240, 245, 250, 255]
+  }
+};
+
+
 let tableExample; // example of CSV
 let currentScene = 2; // Start with scene 1
-
+let currentEventScene = 'description';
 let isPlaying = true;
 let nextChangeTime = 0;
 let gameFinished = false; // Flag to indicate if the game has finished
@@ -95,14 +111,17 @@ let currentDate = new Date(1995, 0, 1);
 function preload() {
   bgImg = loadImage('img/terminal2.png'); // Make sure to place the correct path to your image
   loadJSON('data/stock_prices.json', loadData); // Load the stock prices from the JSON file
-  
+  eventsJSON = loadJSON('data/events.json');
   companyPricesCSV = loadTable('companyPrices.csv', 'csv', 'header');
   // Load the song
   song = loadSound('short-test.mp3');
   pauseSong = loadSound('pause.mp3');
+  pageSong = loadSound('page.mp3');
+  eventSong = loadSound('dot-matrix.mp3');
   musicTime = loadSound('music.mp3');
   // Load the background image, replace 'background.jpg' with your image file path
   bgImage = loadImage('splash.png');
+  eventImage = loadImage('event.png');
 
 
   tableExample = loadTable("data/example.csv", "csv", "header");
@@ -149,6 +168,15 @@ function setup() {
       musicTime.stop();
   });
 
+  // Button for switching to scene 2
+  select('#scene4Button').mousePressed(() => {
+    currentScene = 4;
+    eventSong.jump(0);
+    eventSong.play();
+    song.stop();
+    musicTime.stop();
+});
+
     //song.play();
 }
 
@@ -160,7 +188,9 @@ function draw() {
     drawTimeLine();
   } else if (currentScene === 3) {
     drawNarrative();
-  }
+  } else if (currentScene === 4) {
+    drawEvent(lastEvent);
+}
 
 
 }
