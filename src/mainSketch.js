@@ -1,24 +1,29 @@
 let inputContainer;
 let companies = [
   {
-    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-    description:'A software company with global....',
+    name:'Company A', 
+    description:'Description of company....',
+    latestPrice: [0,],
   },
   {
-    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-    description:'A software company with global....',
+    name:'Company B', 
+    description:'Description of company....',
+    latestPrice: [0,],
   },
   {
-    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-    description:'A software company with global....',
+    name:'Company C', 
+    description:'Description of company....',
+    latestPrice: [0,],
   },
   {
-    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-    description:'A software company with global....',
+    name:'Company D', 
+    description:'Description of company....',
+    latestPrice: [0,],
   },
   {
-    name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-    description:'A software company with global....',
+    name:'Company E', 
+    description:'Description of company....',
+    latestPrice: [0,],
   },
   ];
 
@@ -56,6 +61,7 @@ let fairValues = [
 ];
 let bgImg;
 let stockPrices = [];
+let companyPricesCSV; //Global variable for prices CSV
 let song; // Variable to hold the song
 let bgImage; // Variable to hold the background image
 let pauseSong;
@@ -74,7 +80,8 @@ let currentDate = new Date(1995, 0, 1);
 function preload() {
   bgImg = loadImage('img/terminal2.png'); // Make sure to place the correct path to your image
   loadJSON('data/stock_prices.json', loadData); // Load the stock prices from the JSON file
-
+  
+  companyPricesCSV = loadTable('companyPrices.csv', 'csv');
   // Load the song
   song = loadSound('short-test.mp3');
   pauseSong = loadSound('pause.mp3');
