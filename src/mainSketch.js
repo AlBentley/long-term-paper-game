@@ -47,7 +47,7 @@ let fairValues = [
   capital_gain: 0
 },
 {
-  fv:0,
+  fv:70,
   r:0,
   e:0,
   pe:0,
@@ -56,7 +56,7 @@ let fairValues = [
   capital_gain: 0
 },
 {
-  fv:0,
+  fv:990,
   r:0,
   e:0,
   pe:0,
@@ -65,7 +65,7 @@ let fairValues = [
   capital_gain: 0
 },
 {
-  fv:0,
+  fv:5,
   r:0,
   e:0,
   pe:0,
@@ -165,6 +165,6 @@ function draw() {
 
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+// function windowResized() {
+//   resizeCanvas(windowWidth, windowHeight);
+// }

@@ -49,15 +49,53 @@ function drawTimeLine() {
   //draw chart
   //drawBarChart(tableExample, 160, 120, 300, 160);
 
-  //drawPortfolio();
+  //find the row of prices
+  let rowIndex = max(30, companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate)) );
 
-  drawStocks();
+  drawPortfolio(rowIndex);
+
+  drawStocks(rowIndex);
 
   
  
 }
 
-function drawStocks(){
+function drawPortfolio(rowIndex){
+
+  let table = [];
+
+  //header
+  table[0] = ["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
+
+  for (var i = 0; i < companies.length ; i++) { 
+
+    let holding = fairValues[i].amount_invested;
+    let total_return = fairValues[i].capital_gain;
+
+    let monthReturn = 0;
+
+    let FV = fairValues[i].fv;
+
+    let last_price = parseFloat(companyPricesCSV.getColumn(companies[i].name)[rowIndex]);
+
+    let discount = (fairValues[i].fv - last_price)/ fairValues[i].fv;
+
+    //["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
+    table[i+1] = [companies[i].name,
+                  holding.toString(),
+                  total_return.toString(), 
+                  monthReturn.toString(),
+                  FV.toString(),
+                  last_price.toString(),
+                  discount.toString()];
+
+  };
+  
+  renderTable( table, 100, 140, 400, 160);
+
+}
+
+function drawStocks(rowIndex){
 
   // loop through all the stocks and render the charts
   for (var i = 0; i < companies.length ; i++) { 
@@ -65,15 +103,11 @@ function drawStocks(){
       let chartHeight = 40;
       let padding = 20;
 
-      let rowIndex = max(30, companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate)) );
-
-      console.log('i:',(i))
-      console.log('TEST:',companies[i])
       let priceData = companyPricesCSV.getColumn(companies[i].name); // Fetch by company name
-
+    
       let chartData = priceData.slice(rowIndex-30, rowIndex).map(function(item) {
         return parseFloat(item);
-    });;
+    });
       
     //width is not accounted for!
       drawLineChart(chartData, 350, 140 + (i*(chartHeight + padding)), 180, chartHeight);
