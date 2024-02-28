@@ -98,6 +98,7 @@ function incrementDate(){
 
 function incrementDay() {
   currentDate.setDate(currentDate.getDate() + 1);
+  updateLatestStockPrice();
 
   if(currentDate.getDate() == 1) {  //first day of every month
     reviewPortfolio();
