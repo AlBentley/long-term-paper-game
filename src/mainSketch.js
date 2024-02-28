@@ -90,6 +90,8 @@ let gameFinished = false; // Flag to indicate if the game has finished
 let bankBalance = 100000; // Initial bank balance
 
 let currentDate = new Date(1995, 0, 1);
+let rowIndex = 0; // To keep track of the current index in the loaded data
+
 
 let tradeLog = [];
 

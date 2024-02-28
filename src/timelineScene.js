@@ -1,5 +1,4 @@
 let maxStockPrice = 150; // Adjust based on your needs
-let currentIndex = 0; // To keep track of the current index in the loaded data
 
 // each time draw runs remove the last value add random value
 
@@ -50,7 +49,7 @@ function drawTimeLine() {
   //drawBarChart(tableExample, 160, 120, 300, 160);
 
   //find the row of prices
-  let rowIndex = max(30, companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate)) );
+  rowIndex = max(30, companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate)) );
 
   drawPortfolio(rowIndex);
 
@@ -119,16 +118,6 @@ function drawStocks(rowIndex){
   }
 }
 
-function updatePrices() {
-  // Increment the currentIndex to "move" the chart
-  currentIndex++;
-  // If currentIndex goes beyond the length of stockPrices, reset it to loop the animation
-  if (currentIndex >= stockPrices.length) {
-    currentIndex = 0; // Or handle as needed for continuous data
-  }
-
-  // Optionally, you could add logic here to fetch new data points dynamically
-}
 
 function keyPressed() {
   if (keyCode === 32) { // Space bar
@@ -166,7 +155,7 @@ function incrementDay() {
   currentDate.setDate(currentDate.getDate() + 1);
 
   if(currentDate.getDate() == 1) {  //first day of every month
-    reviewPortfolio();
+    reviewPortfolio(rowIndex);
   }
 
   if (currentDate >= new Date(2005, 0, 1)) {
