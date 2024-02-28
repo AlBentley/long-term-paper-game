@@ -1,27 +1,27 @@
 let inputContainer;
 let companies = [
   {
-    name:'Company A', 
+    name:'Company1', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company B', 
+    name:'Company2', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company C', 
+    name:'Company3', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company D', 
+    name:'Company4', 
     description:'Description of company....',
     latestPrice: [0,],
   },
   {
-    name:'Company E', 
+    name:'Company5', 
     description:'Description of company....',
     latestPrice: [0,],
   },
@@ -96,7 +96,7 @@ function preload() {
   bgImg = loadImage('img/terminal2.png'); // Make sure to place the correct path to your image
   loadJSON('data/stock_prices.json', loadData); // Load the stock prices from the JSON file
   
-  companyPricesCSV = loadTable('companyPrices.csv', 'csv');
+  companyPricesCSV = loadTable('companyPrices.csv', 'csv', 'header');
   // Load the song
   song = loadSound('short-test.mp3');
   pauseSong = loadSound('pause.mp3');

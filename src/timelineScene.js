@@ -60,14 +60,16 @@ function drawTimeLine() {
 function drawStocks(){
 
   // loop through all the stocks and render the charts
-  for (var i = 0; i <= companies.length ; i++) { 
+  for (var i = 0; i < companies.length ; i++) { 
 
       let chartHeight = 100;
       let padding = 10;
 
       let rowIndex = max(30, companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate)) );
 
-      let priceData = companyPricesCSV.getColumn(i+1); // 0 is the date
+      console.log('i:',(i))
+      console.log('TEST:',companies[i])
+      let priceData = companyPricesCSV.getColumn(companies[i].name); // Fetch by company name
 
       let chartData = priceData.slice(rowIndex-30, rowIndex).map(function(item) {
         return parseFloat(item);
@@ -170,4 +172,14 @@ function resetGame() {
   currentDate = new Date(1995, 0, 1);
   gameFinished = false;
   isPlaying = false;
+}
+
+function formatDate(date) {
+  // Extract the year, month, and day from the date object
+  let year = date.getFullYear();
+  let month = nf(date.getMonth() + 1, 2); // Months are 0-indexed; add 1 to get the correct month number
+  let day = nf(date.getDate(), 2); // Pad the day with a leading zero if necessary
+
+  // Concatenate the parts together with dashes
+  return `${year}-${month}-${day}`;
 }
