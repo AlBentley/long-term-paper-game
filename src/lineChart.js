@@ -5,12 +5,20 @@ function drawLineChart(data, xPos, yPos, wSize, hSize) {
 
   strokeWeight (5);
 
+
+
   marketvalue.shift();
   var n = noise (noiseParam);
   var value = map (n, 0,1, 0, hSize);
   
   marketvalue.push(value);
   noiseParam += noiseStep;
+
+  data = marketvalue;
+
+  let maxPrice = max(data);
+  let minPrice = min(data);
+
   for (var i = 0; i < wSize/5 ; i++) { //here you don't use <= 
     //marketvalue [i+1] = random[i];
     if (marketvalue[i] >= marketvalue[i+1]) {
@@ -20,8 +28,8 @@ function drawLineChart(data, xPos, yPos, wSize, hSize) {
       stroke(255, 0,0);
       fill(255, 0,0);
     }
-    line(xPos + i*5, yPos + marketvalue[i] ,
-         xPos + i*5 + 5, yPos + marketvalue[i+1]);
+    line(xPos + i*5, yPos + map(data[i], minPrice, maxPrice, 0, hSize) ,
+         xPos + i*5 + 5, yPos + map(data[i+1], minPrice, maxPrice, 0, hSize));
     
     if(i == (wSize/5) - 1){
       strokeWeight (0);

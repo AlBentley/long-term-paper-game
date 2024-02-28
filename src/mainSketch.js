@@ -33,30 +33,45 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
+  avg_price: null,
+  amount_invested: 0,
+  capital_gain: 0
 },
 {
   fv:12,
   r:0,
   e:0,
   pe:0,
+  avg_price: null,
+  amount_invested: 0,
+  capital_gain: 0
 },
 {
   fv:0,
   r:0,
   e:0,
   pe:0,
+  avg_price: null,
+  amount_invested: 0,
+  capital_gain: 0
 },
 {
   fv:0,
   r:0,
   e:0,
   pe:0,
+  avg_price: null,
+  amount_invested: 0,
+  capital_gain: 0
 },
 {
   fv:0,
   r:0,
   e:0,
   pe:0,
+  avg_price: null,
+  amount_invested: 0,
+  capital_gain: 0
 },
 ];
 let bgImg;

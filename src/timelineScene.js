@@ -49,8 +49,25 @@ function drawTimeLine() {
   //draw chart
   //drawBarChart(tableExample, 160, 120, 300, 160);
 
-  drawLineChart(null, 400, 120, 180, 160);
+  //drawPortfolio();
+
+  drawStocks();
+
+  
  
+}
+
+function drawStocks(){
+
+  // loop through all the stocks and render the charts
+  for (var i = 0; i <= companies.length ; i++) { 
+
+      let chartHeight = 100;
+      let padding = 10;
+
+      drawLineChart(null, 400, 60 + (i*(chartHeight + padding)), 180, chartHeight);
+
+  }
 }
 
 function updatePrices() {
