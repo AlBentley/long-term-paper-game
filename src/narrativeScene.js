@@ -20,6 +20,7 @@ function setupNarrative() {
   inputContainer.style('box-shadow', '0 4px 8px rgba(0, 0, 0, 0.1)');
   inputContainer.style('width', 'auto');
   inputContainer.style('max-width', '90%'); // Prevents the modal from being too wide on larger screens
+  inputContainer.hide();
 }
 
 function drawNarrative() {
@@ -75,7 +76,7 @@ function updateFairValues() {
     }
   });
 
-  currentScene = 1
+  currentScene = 2
   inputContainer.hide();
 
   // Optional: Log the updated fairValues array to console for verification
