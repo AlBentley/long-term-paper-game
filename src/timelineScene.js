@@ -98,7 +98,6 @@ function incrementDate(){
 
 function incrementDay() {
   currentDate.setDate(currentDate.getDate() + 1);
-  updateLatestStockPrice();
 
   if(currentDate.getDate() == 1) {  //first day of every month
     reviewPortfolio();
@@ -146,4 +145,14 @@ function resetGame() {
   currentDate = new Date(1995, 0, 1);
   gameFinished = false;
   isPlaying = false;
+}
+
+function formatDate(date) {
+  // Extract the year, month, and day from the date object
+  let year = date.getFullYear();
+  let month = nf(date.getMonth() + 1, 2); // Months are 0-indexed; add 1 to get the correct month number
+  let day = nf(date.getDate(), 2); // Pad the day with a leading zero if necessary
+
+  // Concatenate the parts together with dashes
+  return `${year}-${month}-${day}`;
 }

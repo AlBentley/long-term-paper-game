@@ -80,7 +80,7 @@ function preload() {
   bgImg = loadImage('img/terminal2.png'); // Make sure to place the correct path to your image
   loadJSON('data/stock_prices.json', loadData); // Load the stock prices from the JSON file
   
-  companyPricesCSV = loadTable('companyPrices.csv', 'csv');
+  companyPricesCSV = loadTable('companyPrices.csv', 'csv', 'header');
   // Load the song
   song = loadSound('short-test.mp3');
   pauseSong = loadSound('pause.mp3');
