@@ -33,7 +33,7 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  avg_price: null,
+  avg_price: 77,
   amount_invested: 0,
   capital_gain: 0
 },
@@ -42,7 +42,7 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  avg_price: null,
+  avg_price: 3,
   amount_invested: 0,
   capital_gain: 0
 },
@@ -51,7 +51,7 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  avg_price: null,
+  avg_price: 64,
   amount_invested: 0,
   capital_gain: 0
 },
@@ -60,7 +60,7 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  avg_price: null,
+  avg_price: 534,
   amount_invested: 0,
   capital_gain: 0
 },
@@ -69,7 +69,7 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  avg_price: null,
+  avg_price: 123,
   amount_invested: 0,
   capital_gain: 0
 },
@@ -106,6 +106,10 @@ let gameFinished = false; // Flag to indicate if the game has finished
 let bankBalance = 100000; // Initial bank balance
 
 let currentDate = new Date(1995, 0, 1);
+let rowIndex = 0; // To keep track of the current index in the loaded data
+
+
+let tradeLog = [];
 
 
 function preload() {
