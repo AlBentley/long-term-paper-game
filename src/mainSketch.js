@@ -1,3 +1,4 @@
+let inputContainer;
 let companies = [
   {
     name:'Microsoft', //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
@@ -105,6 +106,7 @@ function setup() {
   frameRate(10);
 
   setupTimeLine();
+  setupNarrative();
 
   select('#scene1Button').mousePressed(() => {
         currentScene = 1;
@@ -124,7 +126,6 @@ function setup() {
       song.stop();
       musicTime.stop();
   });
-
 
     //song.play();
 }
