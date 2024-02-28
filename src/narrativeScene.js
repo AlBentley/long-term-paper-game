@@ -1,21 +1,33 @@
 let inputFieldsCreated = false;
-let inputContainer; // Ensure this is declared globally
+ // Ensure this is declared globally
 
-function setup() {
+function setupNarrative() {
   createCanvas(windowWidth, windowHeight);
   inputContainer = createDiv(''); // Dynamically create the container
   inputContainer.id('input-fields'); // Assign an ID to the container
-  inputContainer.style('position', 'absolute'); // Position the container
-  inputContainer.style('top', '10px'); // Adjust the position as needed
-  inputContainer.style('left', '10px');
-  // Removed createInputFields() from here
+  // Apply styles to make it look like a modal and center it
+  inputContainer.style('display', 'flex');
+  inputContainer.style('flex-direction', 'column');
+  inputContainer.style('align-items', 'center');
+  inputContainer.style('justify-content', 'center');
+  inputContainer.style('position', 'absolute');
+  inputContainer.style('top', '50%');
+  inputContainer.style('left', '50%');
+  inputContainer.style('transform', 'translate(-50%, -50%)');
+  inputContainer.style('background-color', 'rgba(255, 255, 255, 0.95)');
+  inputContainer.style('padding', '20px');
+  inputContainer.style('border-radius', '8px');
+  inputContainer.style('box-shadow', '0 4px 8px rgba(0, 0, 0, 0.1)');
+  inputContainer.style('width', 'auto');
+  inputContainer.style('max-width', '90%'); // Prevents the modal from being too wide on larger screens
 }
 
 function drawNarrative() {
-  background(bgImg);
   if (!inputFieldsCreated) {
     createInputFields();
     inputFieldsCreated = true; // Prevent further calls
+  } else if (inputFieldsCreated) {
+    inputContainer.show(); //Show input fields if narrativeScene is being reDrawn
   }
 }
 
@@ -62,6 +74,9 @@ function updateFairValues() {
       fairValues[index].fv = value; // Update the fair value at the corresponding index
     }
   });
+
+  currentScene = 1
+  inputContainer.hide();
 
   // Optional: Log the updated fairValues array to console for verification
   console.log(fairValues);
