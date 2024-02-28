@@ -62,8 +62,8 @@ function drawStocks(){
   // loop through all the stocks and render the charts
   for (var i = 0; i < companies.length ; i++) { 
 
-      let chartHeight = 100;
-      let padding = 10;
+      let chartHeight = 40;
+      let padding = 20;
 
       let rowIndex = max(30, companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate)) );
 
@@ -75,7 +75,8 @@ function drawStocks(){
         return parseFloat(item);
     });;
       
-      drawLineChart(chartData, 400, 60 + (i*(chartHeight + padding)), 180, chartHeight);
+    //width is not accounted for!
+      drawLineChart(chartData, 350, 140 + (i*(chartHeight + padding)), 180, chartHeight);
 
   }
 }

@@ -3,12 +3,12 @@
 function drawLineChart(data, xPos, yPos, wSize, hSize) {
   //background(0,0,255);
 
-  strokeWeight (5);
+  strokeWeight (3);
 
   let maxPrice = max(data);
   let minPrice = min(data);
 
-  for (var i = 0; i < data.length ; i++) { //here you don't use <= 
+  for (var i = 0; i <= data.length-1 ; i++) { //here you don't use <= 
     
     if (data[i] >= data[i+1]) {
       stroke(0,255,0); 
@@ -20,11 +20,12 @@ function drawLineChart(data, xPos, yPos, wSize, hSize) {
     line(xPos + i*5, yPos + map(data[i], minPrice, maxPrice, 0, hSize) ,
          xPos + i*5 + 5, yPos + map(data[i+1], minPrice, maxPrice, 0, hSize));
     
-    if(i == (wSize/5) - 1){
+    if(i == data.length - 2){
       strokeWeight (0);
       textSize(12); // Text size for instructions
       textAlign(LEFT, CENTER);
-      text("$" + data[i].toFixed(2).toString(), xPos + i*5 + 15, yPos + data[i+1]);
+      text("$" + data[i+1].toFixed(0).toString(), xPos + i*5 + 15, yPos + map(data[i+1], minPrice, maxPrice, 0, hSize));
+      
     }
 
     }
