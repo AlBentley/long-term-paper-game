@@ -70,28 +70,32 @@ function drawPortfolio(rowIndex){
   for (var i = 0; i < companies.length ; i++) { 
 
     let holding = fairValues[i].amount_invested;
-    let total_return = fairValues[i].capital_gain;
-
-    let monthReturn = 0;
-
-    let FV = fairValues[i].fv;
 
     let last_price = parseFloat(companyPricesCSV.getColumn(companies[i].name)[rowIndex]);
 
-    let discount = (fairValues[i].fv - last_price)/ fairValues[i].fv;
+    let total_return = last_price/fairValues[i].avg_price * 100; //fairValues[i].capital_gain;
+
+    let monthReturn = parseFloat(
+                      companyPricesCSV.getColumn(companies[i].name)[rowIndex]/
+                      companyPricesCSV.getColumn(companies[i].name)[rowIndex-30] * 100);
+
+    let FV = fairValues[i].fv;
+
+
+    let discount = (fairValues[i].fv - last_price)/ fairValues[i].fv * 100;
 
     //["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
     table[i+1] = [companies[i].name,
-                  holding.toString(),
-                  total_return.toString(), 
-                  monthReturn.toString(),
-                  FV.toString(),
-                  last_price.toString(),
-                  discount.toString()];
+                  "$" + holding.toString(),
+                  total_return.toFixed(0).toString() + "%", 
+                  monthReturn.toFixed(0).toString() + "%",
+                  "$" + FV.toString(),
+                  "$" + last_price.toString(),
+                  discount.toFixed(0).toString() + "%"];
 
   };
   
-  renderTable( table, 100, 140, 400, 160);
+  renderTable( table, 320, 140, 400, 160);
 
 }
 
@@ -110,7 +114,7 @@ function drawStocks(rowIndex){
     });
       
     //width is not accounted for!
-      drawLineChart(chartData, 350, 140 + (i*(chartHeight + padding)), 180, chartHeight);
+      drawLineChart(chartData, 750, 140 + (i*(chartHeight + padding)), 180, chartHeight);
 
   }
 }
