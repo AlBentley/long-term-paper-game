@@ -65,7 +65,15 @@ function drawStocks(){
       let chartHeight = 100;
       let padding = 10;
 
-      drawLineChart(null, 400, 60 + (i*(chartHeight + padding)), 180, chartHeight);
+      let rowIndex = max(30, companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate)) );
+
+      let priceData = companyPricesCSV.getColumn(i+1); // 0 is the date
+
+      let chartData = priceData.slice(rowIndex-30, rowIndex).map(function(item) {
+        return parseFloat(item);
+    });;
+      
+      drawLineChart(chartData, 400, 60 + (i*(chartHeight + padding)), 180, chartHeight);
 
   }
 }
@@ -115,7 +123,6 @@ function incrementDate(){
 
 function incrementDay() {
   currentDate.setDate(currentDate.getDate() + 1);
-  updateLatestStockPrice();
 
   if(currentDate.getDate() == 1) {  //first day of every month
     reviewPortfolio();
