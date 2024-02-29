@@ -359,7 +359,7 @@ let chartHeight = (paperHeight / 2) - (chartMargin * 1.5);
   textAlign(CENTER, CENTER);
   text("Revenue & Earnings", paperWidth / 2 , paperY + 30);
   drawButton("<- Updates", "left");
-  drawButton("Your Report", "right");
+  drawButton("Your Report ->", "right");
   drawBarChartFinancials(revenueAndEarningsData, chartX, chartY, chartWidth, chartHeight);
   let tableStartY = chartY + chartHeight + 100; // Start the table 50 pixels below the chart
   drawTableBelowChart(revenueAndEarningsData, chartX - 50, tableStartY, paperWidth - chartMargin, 200);
@@ -384,7 +384,7 @@ function drawReport(fairValueIndex) {
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text("Your Report", width / 2, paperY + 30);
+  text("<- Your Report", width / 2, paperY + 30);
 
   textSize(16);
   textAlign(LEFT, TOP);
