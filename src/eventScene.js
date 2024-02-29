@@ -14,6 +14,10 @@ function drawEventScene(event) {
     drawCompanyInfo(company);
     toggleInputsVisibility(false);
   } else if (currentEventScene === 'event') {
+    let descDiv = select('#company-description');
+    if (descDiv){
+      descDiv.remove();
+    }
     toggleInputsVisibility(true);
     drawEvent(event);
     drawNarrative(fairValueIndex);
@@ -27,27 +31,73 @@ function drawEventScene(event) {
   }
 }
 
+function convertMarkdownToHTML(markdown) {
+  // Convert headings
+  markdown = markdown.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+
+  // Convert bold text
+  markdown = markdown.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+
+  // Convert italic text
+  markdown = markdown.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+
+    // Convert line breaks
+  markdown = markdown.replace(/\n/gim, '<br />');
+
+  // Handle bold followed by line break
+  markdown = markdown.replace(/<\/strong><br \/>/gim, '</strong>');
+
+  // Ensure correct HTML structure by wrapping in a div
+  let html = `<div style="font-family: 'Courier New', Courier, monospace;">${markdown}</div>`;
+
+
+  return html;
+}
+
+
 // COMPANY BACKGROUND SCREEN
 function drawCompanyInfo(company) {
-  // Draw "paper"
-  let paperX = 100;
-  let paperY = 100;
-  let paperWidth = width - 200;
-  let paperHeight = height - 200; // Adjusted for only showing the description
 
+  let descDiv = select('#company-description');
+  
+  let paperX = 10;
+  let paperY = 100;
+  let margin = 25;
+  let paperWidth = (width / 3 * 2) - margin; // To thirds of the screen minus 100 margin
+  let paperHeight = height - 150; // Adjusted for only showing the description
+  
+  // Draw "paper" as before
   fill(255); // White paper
   noStroke();
-  rect(paperX, paperY, paperWidth, paperHeight, 10); // Slightly rounded corners
+  rect(100, 100, width - 200, height - 200, 10); // Slightly rounded corners
 
-  // Event Name and Description
+  // Set up the company name as before
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text(company.name, width / 2, paperY + 30);
+  text(company.name, width / 2, 120);
+  
 
-  textSize(16);
-  textAlign(LEFT, TOP);
-  text(company.description, paperX + 20, paperY + 60, paperWidth - 40); // Adjust padding as necessary
+  if (!descDiv) {
+    // If it doesn't exist, create it
+    descDiv = createDiv();
+    descDiv.id('company-description');
+    descDiv.style('position', 'absolute');
+    descDiv.style('top', '150px');
+    descDiv.style('left', '160px');
+    descDiv.style('width', (width - 210) + 'px');
+    descDiv.style('height', (height - 250) + 'px');
+    descDiv.style('overflow-y', 'scroll'); // Enable vertical scrolling
+    descDiv.style('background', 'white');
+    descDiv.style('padding', '20px');
+    descDiv.style('box-sizing', 'border-box'); // Include padding in the div's dimensions
+    descDiv.style('border-radius', '10px'); // Match the canvas corners
+    descDiv.parent('sketch-holder'); // Attach it to the sketch holder
+  }
+
+  let htmlContent = convertMarkdownToHTML(company.description);
+  descDiv.html(htmlContent);
+
   drawButton("News ->", "right");
 }
 

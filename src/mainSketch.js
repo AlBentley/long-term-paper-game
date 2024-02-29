@@ -1,27 +1,4 @@
 let inputContainer;
-let companies = [
-  {
-    name:'TreadMaster Corp', 
-    description:'Description of company....',
-  },
-  {
-    name:'HealthCare Haven', 
-    description:'Description of company....',
-  },
-  {
-    name:'DrillTech Industries', 
-    description:'Description of company....',
-  },
-  {
-    name:'Pharama Industries', 
-    description:'Description of company....',
-  },
-  {
-    name:'Smart Mart', 
-    description:'Description of company....',
-  },
-  ];
-
 
 let fairValues = [
 {
@@ -101,6 +78,7 @@ let bgImg;
 let fairValueIndex = 0;
 let stockPrices = [];
 let eventsJSON = [];
+let companies = [];
 let companyPricesCSV; //Global variable for prices CSV
 let TreadMaster; //Global variable for TredMaster financials
 let song; // Variable to hold the song
@@ -142,6 +120,9 @@ function preload() {
   bgImg = loadImage('img/terminal_wide.png'); // Make sure to place the correct path to your image
   loadJSON('data/stock_prices.json', loadData); // Load the stock prices from the JSON file
   eventsJSON = loadJSON('data/events.json');
+  loadJSON('data/companies.json', (data) => {
+    companies = data.companies; // Assuming your JSON structure has a "companies" array
+  });
   companyPricesCSV = loadTable('data/companyPrices.csv', 'csv', 'header');
   treadMasterCSV = loadTable('data/treadmaster.csv', 'csv', 'header');
   // Load the song
