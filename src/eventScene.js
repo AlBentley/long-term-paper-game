@@ -79,7 +79,7 @@ function drawCompanyInfo(company) {
     descDiv.id('company-description');
     descDiv.style('position', 'absolute');
     descDiv.style('top', '150px');
-    descDiv.style('left', '160px');
+    descDiv.style('left', ((windowWidth / 2)-410) + 'px');
     descDiv.style('width', (width - 210) + 'px');
     descDiv.style('height', (height - 250) + 'px');
     descDiv.style('overflow-y', 'scroll'); // Enable vertical scrolling
@@ -100,7 +100,8 @@ function drawCompanyInfo(company) {
 function initializeInputsAndLabels() {
   // Create the wrapper div
   inputWrapper = createDiv('');
-  inputWrapper.position((width / 3) * 2, 100);
+  
+  positionInputWrapper()
   
   const inputNames = ["What might revenue be in 5 years?", "What might earnings be in 5 years?", "What is a reasonable future PE Multiple"];
   const inputIds = [ "revenue", "earnings", "pe", "fv"]
@@ -180,9 +181,6 @@ function drawNarrative(fairValueIndex) {
   let inputGap = 75; // Gap between inputs
   let newPositionY = 100;
   
-  // Update the position of the inputWrapper
-  inputWrapper.position(startX + 60, startY + 50);
-  inputWrapper.style('width', '270px');
 
   fill(255); // White paper
   noStroke();
@@ -264,7 +262,7 @@ function drawEvent(event) {
     descDiv.id('company-update');
     descDiv.style('position', 'absolute');
     descDiv.style('top', '150px');
-    descDiv.style('left', (paperX + 75) + 'px');
+    descDiv.style('left', ((windowWidth / 2)-480) + 'px');
     descDiv.style('width', (paperWidth - 10) + 'px');
     descDiv.style('height', (height - 250) + 'px');
     descDiv.style('overflow-y', 'scroll'); // Enable vertical scrolling
@@ -549,4 +547,26 @@ function drawButton(buttonText, placement, symbol) {
   textStyle(BOLD); 
   textAlign(CENTER, CENTER);
   text(buttonText, btnX + btnWidth / 2, btnY + btnHeight / 2);
+}
+
+function positionInputWrapper() {
+  let margin = 25;
+  let startX = ((windowWidth / 3) * 2) + (margin / 2); // Use windowWidth for dynamic adjustment
+  let startY = 100;
+  let sectionWidth = (width / 3) - margin;
+  fill(255); // White paper
+  noStroke();
+  rect(startX, startY, sectionWidth, height - 150, 10); // Adjusted for showing the description
+
+  // Update the position of the inputWrapper
+  inputWrapper.position((windowWidth / 2)+ 200, startY + 50);
+  inputWrapper.style('width', '270px');
+  let descDiv = select('#company-update');
+    if (descDiv){
+      descDiv.style('left', ((windowWidth / 2)-480) + 'px');
+    }
+  let overviewDiv = select('#company-description');
+    if (overviewDiv){
+      overviewDiv.style('left', ((windowWidth / 2)-410) + 'px');
+    }
 }

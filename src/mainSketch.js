@@ -268,6 +268,6 @@ function keyPressed() {
 
 
 
-// function windowResized() {
-//   resizeCanvas(windowWidth, windowWidth * aspectRatio);
-// }
+function windowResized() {
+  positionInputWrapper();
+}
