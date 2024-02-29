@@ -221,6 +221,8 @@ function draw() {
     drawEventScene(lastEvent);
   } else if (currentScene === 5) {
     drawIntro();
+  } else if (currentScene === 6) {
+    drawEnding();
   }
 }
 function keyPressed() {

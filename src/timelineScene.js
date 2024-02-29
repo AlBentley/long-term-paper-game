@@ -175,6 +175,17 @@ function incrementDate(){
 
 function incrementDay() {
   currentDate.setDate(currentDate.getDate() + 1);
+  
+  if(currentDate.getFullYear() == 2002) {  //end the game
+    
+    timelineMusic[0].pause();
+    timelineMusic[1].pause();
+    timelineMusic[2].pause();
+    eventSong.pause();
+    musicTime.play();
+    currentScene = 6;
+    return;
+  }
 
   if(currentDate.getDate() == 1) {  //first day of every month
     reviewPortfolio(rowIndex);
@@ -183,7 +194,7 @@ function incrementDay() {
   //check if there is an event and if there is display EventScene
   let matchingEvent = eventsJSON.events.find(event => event.date == formatDate(currentDate));
   if (matchingEvent && currentScene != 4) {
-    musicTime.stop();
+    musicTime.pause();
     timelineMusic[0].pause();
     timelineMusic[1].pause();
     timelineMusic[2].pause();
