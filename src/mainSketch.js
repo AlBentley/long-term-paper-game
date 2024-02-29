@@ -230,11 +230,24 @@ function keyPressed() {
     // If so, return and don't execute the rest of the code
     return;
   }
+
+  if (keyCode === 32 && currentScene === 2 ) { // Space bar
+    if (!gameFinished) {
+      isPlaying = !isPlaying;
+      if (isPlaying && !song.isPlaying()) {
+        song.loop(); // Play the song if the game is playing
+      } else if (!isPlaying && song.isPlaying()) {
+        pauseSong.play();
+        song.pause(); // Pause the song if the game is paused  
+      }
+    } else {
+      resetGame();
+    }
+  }
   
   if (currentScene === 4) { //key handler for Event scene
     //handle keyboard entry for events
     console.log('CURRENTSCENE:',currentEventScene)
-
     if (keyCode === RIGHT_ARROW && currentEventScene === 'company') {
       currentEventScene = 'event'; // Switch to financials view
     } else if (keyCode === LEFT_ARROW && currentEventScene === 'event') {

@@ -124,7 +124,8 @@ function initializeInputsAndLabels() {
     input.id(inputIds[index]);
     input.parent(inputWrapper); // Set the wrapper as the parent
     label.style('font-family', 'monospace');
-
+    input.style('font-family', 'Courier, monospace');
+    input.style('font-size', '16px');
     input.input(() => {
       let newValue = removeCommasAndConvertToNumber(input.value()) || 0; // Parse input value, defaulting to 0 if NaN
       // Update the corresponding property in fairValue based on input's ID
