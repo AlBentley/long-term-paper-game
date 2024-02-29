@@ -14,7 +14,7 @@ function drawSplash() {
   let paperWidth = 400;
   let paperHeight = 50; // Adjusted for only showing the description
 
-  fill(000); 
+  fill(0); 
   noStroke();
   rect(paperX, paperY, paperWidth, paperHeight, 20); // Slightly rounded corners
 
@@ -36,7 +36,7 @@ function drawInstructions() {
   let paperWidth = width / 2;
   let paperHeight = height / 5; // Adjusted for only showing the description
 
-  fill(000); // White paper
+  fill(0); // White paper
   noStroke();
   rect(paperX, paperY, paperWidth, paperHeight, 10); // Slightly rounded corners
 

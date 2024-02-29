@@ -2,7 +2,7 @@ let inputFieldsCreated = false;
  // Ensure this is declared globally
 
 function setupNarrative() {
-  createCanvas(windowWidth, windowHeight);
+  // createCanvas(windowWidth, windowHeight);
   inputContainer = createDiv(''); // Dynamically create the container
   inputContainer.id('input-fields'); // Assign an ID to the container
   // Apply styles to make it look like a modal and center it

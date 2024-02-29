@@ -118,7 +118,7 @@ let bankBalance = 100000; // Initial bank balance
 
 let currentDate = new Date(1995, 0, 1);
 let rowIndex = 0; // To keep track of the current index in the loaded data
-
+let aspectRatio = (600/800);
 
 let tradeLog = [];
 
@@ -156,7 +156,10 @@ function setup() {
   //createCanvas(windowWidth, windowHeight);
   noSmooth(); // This disables anti-aliasing, making the line pixelated
 
-  createCanvas(800, 600);
+  //set the aspect ratio
+  
+  createCanvas(windowWidth, windowWidth * aspectRatio);
+  createCanvas(1024,768);
   
   textFont('Courier New'); // Monospace font for uniform character spacing
   textSize(12); // Larger size for readability
@@ -255,5 +258,5 @@ function keyPressed() {
 }
 
 // function windowResized() {
-//   resizeCanvas(windowWidth, windowHeight);
+//   resizeCanvas(windowWidth, windowWidth * aspectRatio);
 // }
