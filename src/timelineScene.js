@@ -65,7 +65,7 @@ function drawPortfolio(rowIndex){
   let table = [];
 
   //header
-  table[0] = ["Stock","30d return","Total Return", "Holding", "Avg. Price", "Fair Value", "Last Price", "Discount %" ]
+  table[0] = ["Stock","30d return","Total Return", "Holding", "Fair Value", "Last Price", "Discount %" ]
   //table[0] = ["Stock", "Holding", "Value", "Avg Price", "Gain", "NO shares", "Fair Value", "Last Price", "Discount %" ]
 
   bankBalance = 0;
@@ -105,9 +105,14 @@ function drawPortfolio(rowIndex){
     table[i+1] = [companies[i].name.slice(0,7),
                   monthReturn.toFixed(1).toString() + "%",
                   (isFinite(total_return) && no_shares > 0 ? total_return.toFixed(1).toString() + "%" : "-"),
-                  "$" + current_value.toFixed(0).toLocaleString(),
+                  current_value.toLocaleString('en-US', 
+                  {
+                       style: 'currency', 
+                       currency: 'USD',
+                       maximumFractionDigits: 0 
+                   }),
                   //"$" + fairValues[i].capital_gain.toFixed(0).toString(), 
-                  fairValues[i].avg_price.toFixed(2).toString(),
+                  //fairValues[i].avg_price.toFixed(2).toString(),
                   "$" + FV.toFixed(0).toString(),
                   "$" + last_price.toFixed(2).toString(),
                   discount.toFixed(0).toString() + "%"];
