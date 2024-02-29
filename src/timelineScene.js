@@ -113,7 +113,7 @@ function drawPortfolio(rowIndex){
                    }),
                   //"$" + fairValues[i].capital_gain.toFixed(0).toString(), 
                   //fairValues[i].avg_price.toFixed(2).toString(),
-                  "$" + FV.toFixed(0).toString(),
+                  "$" + FV.toFixed(2).toString(),
                   "$" + last_price.toFixed(2).toString(),
                   discount.toFixed(0).toString() + "%"];
 
