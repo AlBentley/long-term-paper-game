@@ -17,7 +17,7 @@ let fairValues = [
 },
 {
   company:'HealthCare Haven',
-  fv:436,
+  fv:236,
   r:0,
   e:0,
   pe:0,
@@ -31,7 +31,7 @@ let fairValues = [
 },
 {
   company:'DrillTech Industries',
-  fv:110,
+  fv:10,
   r:0,
   e:0,
   pe:0,
@@ -45,8 +45,7 @@ let fairValues = [
 },
 {
   company:'Pharama Industries',
-  fv:190,
-  fv:2,
+  fv:0.8,
   r:0,
   e:0,
   pe:0,
@@ -60,7 +59,6 @@ let fairValues = [
 },
 {
   company:'Smart Mart',
-  fv:200,
   fv:1,
   r:0,
   e:0,
