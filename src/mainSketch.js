@@ -63,7 +63,7 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  outstanding:0,
+  outstanding:379944000,
   avg_price: 0,
   amount_invested: 0,
   current_value: 0,

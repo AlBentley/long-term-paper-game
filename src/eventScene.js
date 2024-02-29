@@ -70,7 +70,7 @@ function drawCompanyInfo(company) {
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text("Company Overview", width / 2, 120);
+  text(`${company.name} Overview`, width / 2, 120);
   
   let descDiv = select('#company-description');
   if (!descDiv) {
