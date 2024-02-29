@@ -255,7 +255,6 @@ function keyPressed() {
       } else {
         currentEventScene = 'event';
       }
-      currentEventScene = 'event';
       eventSong.pause();
   }} else if (currentScene === 5) { //key handler for introduction splash screen
     if (currentIntroScene === 'splash') { 
