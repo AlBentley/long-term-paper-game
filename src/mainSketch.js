@@ -27,9 +27,9 @@ let fairValues = [
 {
   company:'TreadMaster Corp',
   fv:33.63, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-  r:122882000000,
-  e:567000000,
-  pe:8.987786896,
+  r:12288200,
+  e:567000,
+  pe:8.9877,
   outstanding:151533606,
   avg_price: 0,
   amount_invested: 0,
