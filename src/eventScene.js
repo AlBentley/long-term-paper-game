@@ -384,13 +384,13 @@ function drawReport(fairValueIndex) {
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text("<- Your Report", width / 2, paperY + 30);
+  text("Well done!", width / 2, paperY + 30);
 
   textSize(16);
   textAlign(LEFT, TOP);
   drawButton("<- Financials", "left");
   drawButton("Submit [enter]", "right");
-  text(`Well done! Your assessment of ${company} is that it's fair value is $${fv}. Submit your report to your boss to ensure your fund takes appropriately allocations funds.`, paperX + 20, paperY + 80, paperWidth - 40); 
+  text(`Submit your assessment of ${company}'s fair value at $${fv}. Once you submit your boss and re-allocate the appropriately and you'll be sure to get promoted to junior analyst.`, paperX + 20, paperY + 80, paperWidth - 40); 
 
 }
 
