@@ -325,8 +325,11 @@ function drawFinancials(company) {
     // Convert the year string to an integer for comparison
     let rowYear = parseInt(yearString);
   
+    var onboardingPeriod = new Date('1995-01-31');
+    var targetYear = (currentDate < onboardingPeriod ) ? new Date('1994-12-01').getFullYear() : currentDate.getFullYear(); //show only 1994 in first month, then full years.
+    
     // Add row to revenueAndEarningsData only if rowYear is less than or equal to currentYear
-    if (rowYear < currentYear) {
+    if (rowYear <= targetYear) {
       let newRow = revenueAndEarningsData.addRow();
       newRow.setString('Date', yearString);
       newRow.setNum('Revenue', revenue);

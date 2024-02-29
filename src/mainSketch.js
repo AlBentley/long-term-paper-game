@@ -245,7 +245,7 @@ function keyPressed() {
       currentScene = 2;
       
       //set scene to company intro for first month, otherwise get straight into the event
-      var targetDate = new Date('1995-02-01');
+      var targetDate = new Date('1995-01-27');
       if (currentDate < targetDate){
         currentEventScene = 'company';
       } else {
