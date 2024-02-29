@@ -326,7 +326,7 @@ function drawFinancials(company) {
     let rowYear = parseInt(yearString);
   
     // Add row to revenueAndEarningsData only if rowYear is less than or equal to currentYear
-    if (rowYear <= currentYear) {
+    if (rowYear < currentYear) {
       let newRow = revenueAndEarningsData.addRow();
       newRow.setString('Date', yearString);
       newRow.setNum('Revenue', revenue);
