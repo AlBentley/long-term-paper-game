@@ -38,7 +38,7 @@ function reviewPortfolio(rowIndex){
 
             let gain = 0;
 
-            let updateText = (diff > 0 ? "Buy " : "Sell ") + numShares.toFixed(0) + " at $" + sharePrice.toFixed(2);
+            let updateText = (diff > 0 ? "Buy " : "Sell ") + numShares.toFixed(0) + " " + companies[i].name.slice(0,7) + " " + " at $" + sharePrice.toFixed(2);
 
             if(diff < 0){
                 //selling!

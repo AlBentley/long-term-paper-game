@@ -1,27 +1,12 @@
-let maxStockPrice = 150; // Adjust based on your needs
-
-// each time draw runs remove the last value add random value
-
-var marketvalue = []; //81 values that vary. // saves all the positions of the graph
-//change scale from 0 to height in map variable
-var noiseParam = 0;
-var noiseStep = 0.1; // this defines how jagged the curve is
-
-// function setup() {
-//   createCanvas(windowWidth, windowHeight);
-//   noSmooth(); // This disables anti-aliasing, making the line pixelated
-// }
-
-function setupTimeLine() {
-    for ( var i = 0; i <= width/5; i++) { //this makes it suited for any width
-        var n = noise(noiseParam);
-        var value = map(n, 0, 1, 0, 160);  //if n = o.5 then value will be halfway between 0 and height
-        marketvalue.push(value); //appends the value to the latest market value
-        noiseParam += noiseStep;
-    } 
-}
+let terminalLeft;
+let terminalTop;
+let terminalRight;
+let terminalBottom;
+let terminalWidth;
+let terminalHeight;
 
 function drawTimeLine() {
+  
   background(bgImg);
   
   //increment date
@@ -62,14 +47,21 @@ function drawTimeLine() {
 function drawUpdateLog(){
 
   fill(255); // White text for visibility
-  strokeWeight(0);
+  
   textSize(8); // Text size for instructions
-  textAlign(LEFT, TOP); // Reset alignment for other text
+  textAlign(LEFT, BOTTOM); // Reset alignment for other text
 
-  for (var i = 0; i < 10 ; i++) { 
+  //
+  fill(50); // Dark grey background for contrast
+  strokeWeight(2);
+  stroke(233,28,159);
+  rect(terminalLeft + (terminalWidth/3.5), terminalBottom - 90, (terminalWidth/2), 90);
+  strokeWeight(0);
+  fill(255);
+  for (var i = 0; i < 7 ; i++) { 
 
     let txt = tradeLog[i];
-    text(txt, 150, 340 - (i * 12));
+    text(txt, terminalLeft + (terminalWidth/3.5) + 5  , terminalBottom - (i * 12) - 5);
     
   };
 
@@ -111,7 +103,7 @@ function drawPortfolio(rowIndex){
     fairValues[i].discount = discount/100;
 
     //["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
-    table[i+1] = [companies[i].name,
+    table[i+1] = [companies[i].name.slice(0,7),
                   "$" + holding.toFixed(0).toString(),
                   "$" + (current_value-holding).toFixed(0).toString(),
                   total_return.toFixed(0).toString() + "%", 
@@ -122,7 +114,7 @@ function drawPortfolio(rowIndex){
 
   };
   
-  renderTable( table, 320, 140, 400, 160);
+  renderTable( table, terminalLeft + (terminalWidth/3.5), terminalTop + 15, width / 2, height / 3.2);
 
 }
 
@@ -141,7 +133,7 @@ function drawStocks(rowIndex){
     });
       
     //width is not accounted for!
-      drawLineChart(chartData, 750, 140 + (i*(chartHeight + padding)), 180, chartHeight);
+      drawLineChart(chartData, terminalLeft, terminalTop + 30 + (i*(chartHeight + padding)), 180, chartHeight, companies[i].name.slice(0,5));
 
   }
 }
@@ -183,8 +175,8 @@ function incrementDay() {
 }
 
 function displayDate() {
-  textSize(24); // Reset text size for the date display
-  text(currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), 10, 10);
+  textSize(14); // Reset text size for the date display
+  text("Goldman Pleasure Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop);
 }
 
 function displayInstruction() {
@@ -200,12 +192,13 @@ function displayInstruction() {
 function displayBankBalance() {
   fill(0); // Black background for bank balance
   noStroke();
-  rect(width - 150, 10, 140, 50); // Position and size for the bank balance
+  //rect(terminalRight - 200, 10, terminalTop, 50); // Position and size for the bank balance
   fill(255); // White text
   textSize(16); // Smaller text for the bank balance
-  text(`$${bankBalance.toLocaleString()}`, width - 140, 20);
+  textAlign(RIGHT, TOP);
+  text(`$${bankBalance.toLocaleString()}`, terminalRight, terminalTop);
   textSize(14); // Even smaller text for "Cash" label
-  text('Cash', width - 140, 40);
+  //text('Cash', width - 140, 40);
 }
 
 
