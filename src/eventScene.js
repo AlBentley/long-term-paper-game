@@ -398,7 +398,7 @@ function drawReport(fairValueIndex) {
   textAlign(LEFT, TOP);
   drawButton("<- Financials", "left");
   drawButton("Submit [enter]", "right");
-  text(`Submit your assessment of ${company}'s fair value at $${fv}. Once you submit your boss and re-allocate the appropriately and you'll be sure to get promoted to junior analyst.`, paperX + 20, paperY + 80, paperWidth - 40); 
+  text(`Submit your fair value of $${fv} for ${company}. Once you submit your boss can re-allocate the fund appropriately and you'll be sure to get promoted to junior analyst.`, paperX + 20, paperY + 80, paperWidth - 40); 
 
 }
 
