@@ -126,11 +126,12 @@ function initializeInputsAndLabels() {
     label.style('font-family', 'monospace');
 
     input.input(() => {
-      let newValue = parseFloat(input.value()) || 0; // Parse input value, defaulting to 0 if NaN
+      let newValue = removeCommasAndConvertToNumber(input.value()) || 0; // Parse input value, defaulting to 0 if NaN
       // Update the corresponding property in fairValue based on input's ID
       switch (inputIds[index]) {
         case 'revenue':
-          fairValues[fairValueIndex].r = newValue;
+          
+        fairValues[fairValueIndex].r = newValue;
           break;
         case 'earnings':
           fairValues[fairValueIndex].e = newValue;
@@ -166,6 +167,15 @@ function initializeInputsAndLabels() {
   toggleInputsVisibility(false);
 }
 
+function formatNumberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function removeCommasAndConvertToNumber(str) {
+  return parseFloat(str.replace(/,/g, ''));
+}
+
+
 function drawNarrative(fairValueIndex) {
   let company = fairValues[fairValueIndex].company;
   let priceData = companyPricesCSV.getColumn(company);
@@ -193,9 +203,9 @@ function drawNarrative(fairValueIndex) {
    textSize(24);
    textAlign(LEFT, TOP);
    text("Your Assessment", startX + 8, startY + 15);
-   select('#revenue').value(fairValues[fairValueIndex].r);
-   select('#earnings').value(fairValues[fairValueIndex].e);
-   select('#pe').value(fairValues[fairValueIndex].pe);
+   select('#revenue').value(formatNumberWithCommas(fairValues[fairValueIndex].r));
+   select('#earnings').value(formatNumberWithCommas(fairValues[fairValueIndex].e));
+   select('#pe').value(fairValues[fairValueIndex].pe.toFixed(2));
    let fvOutput = select('#fvOutput'); // Select the element by ID
    fvOutput.html(`Fair Value: $${fairValues[fairValueIndex].fv.toFixed(2)} <br>Last Share Price: $${companies[fairValueIndex].latestPrice.toFixed(2)}`); // Update its HTML content
 
