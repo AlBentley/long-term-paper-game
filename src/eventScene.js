@@ -40,6 +40,8 @@ function drawEventScene(event) {
 }
 
 function convertMarkdownToHTML(markdown) {
+  markdown = markdown.replace(/^# (.*$)/gim, '<h3>$1</h3>');
+  markdown = markdown.replace(/^## (.*$)/gim, '<h3>$1</h3>');
   markdown = markdown.replace(/^### (.*$)/gim, '<h3>$1</h3>');
   markdown = markdown.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
   markdown = markdown.replace(/\*(.*?)\*/gim, '<em>$1</em>');
