@@ -1,6 +1,6 @@
 
 
-function drawLineChart(data, xPos, yPos, wSize, hSize) {
+function drawLineChart(data, xPos, yPos, wSize, hSize, stock) {
   //background(0,0,255);
 
   strokeWeight (3);
@@ -22,9 +22,11 @@ function drawLineChart(data, xPos, yPos, wSize, hSize) {
     
     if(i == data.length - 2){
       strokeWeight (0);
-      textSize(12); // Text size for instructions
+      textSize(8); // Text size for instructions
       textAlign(LEFT, CENTER);
-      text("$" + data[i+1].toFixed(0).toString(), xPos + i*5 + 15, yPos + map(data[i+1], minPrice, maxPrice, 0, hSize));
+      text("$" + data[i+1].toFixed(2).toString(), xPos + i*5 + 15, yPos + map(data[i+1], minPrice, maxPrice, 0, hSize));
+      textSize(8); // Text size for instructions
+      text(stock, xPos + i*5 + 15, yPos + map(data[i+1], minPrice, maxPrice, 0, hSize) + 14);
       
     }
 

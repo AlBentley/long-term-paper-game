@@ -26,28 +26,29 @@ let companies = [
 let fairValues = [
 {
   company:'TreadMaster Corp',
-  fv:33.63, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-  r:12288200,
-  e:567000,
-  pe:8.99,
-  outstanding:151533606,
-  avg_price: 77,
-  amount_invested: 3240,
-  current_value: 0,
-  capital_gain: 0,
-  discount: 0
-},
-{
-  company:'HealthCare Haven',
-  fv:120,
+  fv:100, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
   r:0,
   e:0,
   pe:0,
-  avg_price: 3,
-  amount_invested: 2350,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
+},
+{
+  company:'HealthCare Haven',
+  fv:436,
+  r:0,
+  e:0,
+  pe:0,
+  avg_price: 0,
+  amount_invested: 0,
+  current_value: 0,
+  capital_gain: 0,
+  discount: 0,
+  no_shares: 0
 },
 {
   company:'DrillTech Industries',
@@ -55,35 +56,40 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  avg_price: 64,
-  amount_invested: 1230,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 {
   company:'Pharama Industries',
   fv:190,
+  fv:2,
   r:0,
   e:0,
   pe:0,
-  avg_price: 534,
-  amount_invested: 1230,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 {
   company:'Smart Mart',
   fv:200,
+  fv:1,
   r:0,
   e:0,
   pe:0,
-  avg_price: 123,
-  amount_invested: 4120,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 ];
 let bgImg;
@@ -128,7 +134,7 @@ let tradeLog = [];
 
 
 function preload() {
-  bgImg = loadImage('img/terminal2.png'); // Make sure to place the correct path to your image
+  bgImg = loadImage('img/terminal_wide.png'); // Make sure to place the correct path to your image
   loadJSON('data/stock_prices.json', loadData); // Load the stock prices from the JSON file
   eventsJSON = loadJSON('data/events.json');
   companyPricesCSV = loadTable('data/companyPrices.csv', 'csv', 'header');
@@ -170,8 +176,7 @@ function setup() {
   textAlign(LEFT, TOP);
   frameRate(10);
 
-  setupTimeLine();
-  setupNarrative();
+ setupNarrative();
 
   select('#scene1Button').mousePressed(() => {
         currentScene = 1;
@@ -202,6 +207,14 @@ function setup() {
 });
 
     //song.play();
+
+    terminalLeft = width * 0.15;
+    terminalTop = height * 0.15;
+    terminalRight = width * 0.85;
+    terminalBottom = height * 0.62;
+    terminalWidth = terminalRight - terminalLeft;
+    terminalHeight = terminalBottom - terminalTop;
+
 }
 
 function draw() {
