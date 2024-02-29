@@ -128,11 +128,15 @@ function preload() {
   pharamaCSV = loadTable('data/pharama.csv', 'csv', 'header');
   smartmartCSV = loadTable('data/smartmart.csv', 'csv', 'header');
   // Load the song
-  song = loadSound('short-test.mp3');
-  pauseSong = loadSound('pause.mp3');
-  pageSong = loadSound('page.mp3');
-  eventSong = loadSound('dot-matrix.mp3');
-  musicTime = loadSound('music.mp3');
+  //song = loadSound('mp3/short-test.mp3');
+  pauseSong = loadSound('mp3/pause.mp3');
+  pageSong = loadSound('mp3/page.mp3');
+  eventSong = loadSound('mp3/event.mp3');
+  musicTime = loadSound('mp3/music.mp3');
+  timelineMusic = [];
+  timelineMusic[0] = loadSound('mp3/1.mp3');
+  timelineMusic[1] = loadSound('mp3/2.mp3');
+  timelineMusic[2] = loadSound('mp3/3.mp3');
   // Load the background image, replace 'background.jpg' with your image file path
   bgImage = loadImage('splash.png');
   bgBoss = loadImage('boss.png');
@@ -166,35 +170,35 @@ function setup() {
 
  setupNarrative();
 
-  select('#scene1Button').mousePressed(() => {
-        currentScene = 1;
-        song.play();
-        //musicTime.stop();
-    });
-    // Button for switching to scene 2
-    select('#scene2Button').mousePressed(() => {
-        currentScene = 2;
-        song.stop();
-        //musicTime.play();
-    });
+//   select('#scene1Button').mousePressed(() => {
+//         currentScene = 1;
+//         song.play();
+//         //musicTime.stop();
+//     });
+//     // Button for switching to scene 2
+//     select('#scene2Button').mousePressed(() => {
+//         currentScene = 2;
+//         song.stop();
+//         //musicTime.play();
+//     });
 
-    // Button for switching to scene 2
-    select('#scene3Button').mousePressed(() => {
-      currentScene = 3;
-      song.stop();
-      musicTime.stop();
-  });
+//     // Button for switching to scene 2
+//     select('#scene3Button').mousePressed(() => {
+//       currentScene = 3;
+//       song.stop();
+//       musicTime.stop();
+//   });
 
-  // Button for switching to scene 2
-  select('#scene4Button').mousePressed(() => {
-    currentScene = 4;
-    eventSong.jump(0);
-    eventSong.play();
-    song.stop();
-    musicTime.stop();
-});
+//   // Button for switching to scene 2
+//   select('#scene4Button').mousePressed(() => {
+//     currentScene = 4;
+//     eventSong.jump(0);
+//     eventSong.play();
+//     song.stop();
+//     musicTime.stop();
+// });
 
-    //song.play();
+    
 
     terminalLeft = width * 0.15;
     terminalTop = height * 0.15;
@@ -251,11 +255,12 @@ function keyPressed() {
       } else {
         currentEventScene = 'event';
       }
-      
-      eventSong.stop();
+      currentEventScene = 'event';
+      eventSong.pause();
   }} else if (currentScene === 5) { //key handler for introduction splash screen
     if (currentIntroScene === 'splash') { 
       currentIntroScene = 'intro';
+      musicTime.play();
     } else if (currentIntroScene === 'intro') {
       currentScene = 2;
     }

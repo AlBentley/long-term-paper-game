@@ -154,6 +154,11 @@ function drawStocks(rowIndex){
 }
 
 function incrementDate(){
+
+  if(!timelineMusic[0].isPlaying() && !timelineMusic[1].isPlaying() && !timelineMusic[2].isPlaying()){
+    timelineMusic[int(random(0, 2))].loop();
+  }
+
   if (!gameFinished) {
     if (isPlaying && millis() > nextChangeTime) {
       incrementDay();
@@ -162,9 +167,9 @@ function incrementDate(){
    
   } else {
     //displayFinishMessage();
-    if (song.isPlaying()) {
-      song.pause(); // Pause the song when the game finishes
-    }
+    // if (song.isPlaying()) {
+    //   song.pause(); // Pause the song when the game finishes
+    // }
   }
 }
 
@@ -178,7 +183,11 @@ function incrementDay() {
   //check if there is an event and if there is display EventScene
   let matchingEvent = eventsJSON.events.find(event => event.date == formatDate(currentDate));
   if (matchingEvent && currentScene != 4) {
-    eventSong.play();
+    musicTime.stop();
+    timelineMusic[0].pause();
+    timelineMusic[1].pause();
+    timelineMusic[2].pause();
+    eventSong.loop();
     lastEvent=matchingEvent;
     currentScene = 4;
   }
