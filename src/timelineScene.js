@@ -48,13 +48,13 @@ function drawUpdateLog(){
   fill(50); // Dark grey background for contrast
   strokeWeight(2);
   stroke(233,28,159);
-  rect(terminalLeft + (terminalWidth/3.5), terminalBottom - 90, (terminalWidth/2), 90);
+  rect(terminalRight -  (terminalWidth/3), terminalBottom - 90, (terminalWidth/3), 90);
   strokeWeight(0);
   fill(255);
   for (var i = 0; i < 7 ; i++) { 
 
     let txt = tradeLog[i];
-    text(txt, terminalLeft + (terminalWidth/3.5) + 5  , terminalBottom - (i * 12) - 5);
+    text(txt, terminalRight -  (terminalWidth/3) + 5, terminalBottom - (i * 12) - 5);
     
   };
 
@@ -186,7 +186,7 @@ function incrementDay() {
 
 function displayDate() {
   textSize(14); // Reset text size for the date display
-  text("Goldman Pleasure Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop+20);
+  text("Goldman XXX Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop+10);
 }
 
 function displayInstruction() {
@@ -205,10 +205,10 @@ function displayBankBalance() {
   //rect(terminalRight - 200, 10, terminalTop, 50); // Position and size for the bank balance
   fill(255); // White text
   textSize(16); // Smaller text for the bank balance
-  textAlign(RIGHT, TOP);
+  textAlign(LEFT, BOTTOM);
   let txt = `$${bankBalance.toLocaleString()}`;
   txt += " (" + (((bankBalance/100000) - 1) * 100).toFixed(1).toString() + "%)";
-  text(txt, terminalRight, terminalTop);
+  text(txt, terminalLeft + (terminalWidth/3.5) + 5, terminalBottom - 50);
   textSize(14); // Even smaller text for "Cash" label
   //text('Cash', width - 140, 40);
 }
