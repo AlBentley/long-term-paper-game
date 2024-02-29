@@ -197,7 +197,7 @@ function drawNarrative(fairValueIndex) {
    select('#earnings').value(fairValues[fairValueIndex].e);
    select('#pe').value(fairValues[fairValueIndex].pe);
    let fvOutput = select('#fvOutput'); // Select the element by ID
-   fvOutput.html(`Fair Value: $${fairValues[fairValueIndex].fv}`); // Update its HTML content
+   fvOutput.html(`Fair Value: $${fairValues[fairValueIndex].fv.toFixed(2)}`); // Update its HTML content
 
    let fvCurrent = select('#fvCurrent'); // Select the element by ID
    fvCurrent.html(`The stock price is currently $${currentPrice}, enter forecasted revenues & earnings below to calculate your fair value.`); // Update its HTML content
