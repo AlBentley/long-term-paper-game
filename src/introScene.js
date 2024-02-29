@@ -47,5 +47,5 @@ function drawInstructions() {
 
   textSize(16);
   textAlign(LEFT, TOP);
-  text("Your internship begins now so listen up! You’ve been assigned five stocks, read up on everything there is to know and send me your fair value estimates by the end of the week, I’ll take it from there. Reckon you can handle that?", paperX + 20, paperY + 30, paperWidth - 40); // Adjust padding as necessary
+  text("Your internship begins now! You’ve been assigned five stocks. Your job is to read up on everything and assess what you think is a fair value. Every month we'll re-allocate our funds portfolio based on your fair value, the more under valued, the more we'll allocate. Do well and the Junior Analyst role is yours. Reckon you can handle that?", paperX + 20, paperY + 30, paperWidth - 40); // Adjust padding as necessary
 }
