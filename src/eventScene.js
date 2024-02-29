@@ -214,7 +214,6 @@ function drawNarrative(fairValueIndex) {
       backgroundColor = percentageChange > 0 ? '#00C11C' : '#C10000'; // Red for overvalued, Green for undervalued
     }
   
-  
 
 
   fvDiff.html(valuationMessage); // Update its HTML content
@@ -292,14 +291,20 @@ function drawFinancials(company) {
     case 'TreadMaster Corp':
       financials = treadMasterCSV;
       break;
-    case 'earnings':
-      financials = treadMasterCSV;
+    case 'DrillTech Industries':
+      financials = drilltechCSV;
       break;
-    case 'pe':
-      financials = treadMasterCSV;
+      case 'HealthCare Haven':
+      financials = healthcareCSV;
+      break;
+      case 'Pharama Industries':
+      financials = pharamaCSV;
+      break;
+      case 'Smart Mart':
+      financials = smartmartCSV;
       break;
   }
-  
+
   //revenue
   let revenueAndEarningsData = new p5.Table();
   let currentYear = currentDate.getFullYear();

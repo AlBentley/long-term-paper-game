@@ -125,6 +125,10 @@ function preload() {
   });
   companyPricesCSV = loadTable('data/companyPrices.csv', 'csv', 'header');
   treadMasterCSV = loadTable('data/treadmaster.csv', 'csv', 'header');
+  drilltechCSV = loadTable('data/drilltech.csv', 'csv', 'header');
+  healthcareCSV = loadTable('data/healthcare.csv', 'csv', 'header');
+  pharamaCSV = loadTable('data/pharama.csv', 'csv', 'header');
+  smartmartCSV = loadTable('data/smartmart.csv', 'csv', 'header');
   // Load the song
   song = loadSound('short-test.mp3');
   pauseSong = loadSound('pause.mp3');
