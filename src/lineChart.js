@@ -22,7 +22,7 @@ function drawLineChart(data, xPos, yPos, wSize, hSize, stock) {
     
     if(i == data.length - 2){
       strokeWeight (0);
-      textSize(10); // Text size for instructions
+      textSize(8); // Text size for instructions
       textAlign(LEFT, CENTER);
       text("$" + data[i+1].toFixed(2).toString(), xPos + i*5 + 15, yPos + map(data[i+1], minPrice, maxPrice, 0, hSize));
       textSize(8); // Text size for instructions

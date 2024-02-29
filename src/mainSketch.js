@@ -33,55 +33,60 @@ let fairValues = [
   r:0,
   e:0,
   pe:0,
-  avg_price: 77,
-  amount_invested: 3240,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 {
-  fv:120,
+  fv:436,
   r:0,
   e:0,
   pe:0,
-  avg_price: 3,
-  amount_invested: 2350,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 {
-  fv:110,
+  fv:16,
   r:0,
   e:0,
   pe:0,
-  avg_price: 64,
-  amount_invested: 1230,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 {
-  fv:190,
+  fv:2,
   r:0,
   e:0,
   pe:0,
-  avg_price: 534,
-  amount_invested: 1230,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 {
-  fv:200,
+  fv:1,
   r:0,
   e:0,
   pe:0,
-  avg_price: 123,
-  amount_invested: 4120,
+  avg_price: 0,
+  amount_invested: 0,
   current_value: 0,
   capital_gain: 0,
-  discount: 0
+  discount: 0,
+  no_shares: 0
 },
 ];
 let bgImg;

@@ -1,5 +1,5 @@
 function reviewPortfolio(rowIndex){
-    console.log("reviewing PF");
+    
 
     let discounts = [];
     let holdings_target = [];
@@ -12,50 +12,76 @@ function reviewPortfolio(rowIndex){
     
     let weightings = updateWeightings(discounts);
 
-    console.log(weightings);
+    console.log("weightings", weightings, weightings.reduce(getSum));
 
     //calculate transactions
     // for (var i = 0; i < companies.length ; i++) { 
     //     holdings_target.push(weightings[i] * fairValues[i].amount_invested);
     // }
     
+    if(bankBalance < 0){
+        // end the game, you lost all your money
+        tradeLog.unshift("FUND IS BANKRUPT!");
+        alert("BANKRUPT");
+        return null;
+    }
+
+    //at start of the game when play has 0 holdings, start off with 100k
+    if(bankBalance == 0) {tradeLog.unshift("Starting with cash of $100,000"); bankBalance = 100000};
+
+    console.log("reviewing PF");
+
+    tradeLog.unshift("Rebalancing Portfolio of $" + bankBalance);
+
     holdings_target = weightings.map(function(x) {return max(x * bankBalance, 0)});
 
-    console.log(holdings_target);
+    console.log("holdings_target", holdings_target, holdings_target.reduce(getSum));
+
+    //debugger
 
     for (var i = 0; i < companies.length ; i++) { 
-        let diff = holdings_target[i] - fairValues[i].amount_invested;
+        let diff = holdings_target[i] - fairValues[i].current_value;
 
         if(diff != 0){                                                                                                                                                     
             
             let sharePrice = companies[i].latestPrice
             let numShares = round(diff / sharePrice);
-            let existingShares = round(fairValues[i].amount_invested / fairValues[i].avg_price);
+            let existingShares = fairValues[i].no_shares;
 
-            numShares = max(existingShares + numShares, 0); // can't sell more than you own
+            numShares = existingShares + numShares < 0 ? -existingShares : numShares; // can't sell more than you own
 
             if(numShares === 0) {continue;} //skip if nothing happening
 
             let gain = 0;
 
-            let updateText = (diff > 0 ? "Buy " : "Sell ") + numShares.toFixed(0) + " " + companies[i].name.slice(0,7) + " " + " at $" + sharePrice.toFixed(2);
+            let updateText = (diff > 0 ? "Buy " : "Sell ") + numShares.toFixed(0) + " " + companies[i].name.slice(0,7) + " " + "at $" + sharePrice.toFixed(2) + "($" + (numShares*sharePrice).toFixed(0) + ") ";
+
+            //debugger
 
             if(diff < 0){
                 //selling!
-                gain = numShares * (sharePrice - fairValues[i].avg_price);
+                gain = abs(numShares) * (sharePrice - fairValues[i].avg_price);
 
                 //add to capital gain/ loss
                 fairValues[i].capital_gain += gain;
 
                 updateText += " (" + (gain > 0 ? "Gain" : "Loss") + " of $" + gain.toFixed(0) + ")";
-                
+                //debugger
+            }
+            else if (existingShares + numShares == 0) {
+                fairValues[i].avg_price = 0;
+            }
+            else {
+                //update avg_price if its a buy
+            fairValues[i].avg_price = ((existingShares * fairValues[i].avg_price) + (numShares * sharePrice)) / (existingShares + numShares);
+
             }
             
             //update holding
-            fairValues[i].amount_invested += diff;
-
-            //update avg_price
-            fairValues[i].avg_price = (existingShares * fairValues[i].avg_price) + (numShares * sharePrice) / (existingShares + numShares);
+            fairValues[i].amount_invested = ((existingShares + numShares) * sharePrice);
+            fairValues[i].no_shares = (existingShares + numShares);
+            
+            //debugger
 
             tradeLog.unshift(updateText);
             console.log(updateText);

@@ -12,14 +12,7 @@ function drawTimeLine() {
   //increment date
   incrementDate();
 
-  // Update the stockPrices array to simulate the chart moving over time
-  // updatePrices();
-
-   // Set up black background for date
-   fill(0); // Black fill
-   noStroke(); // No border
-   rect(0, 0, 200, 45); // Adjust size as needed for the date display
-
+ 
    // Display the date
    fill(255, 0, 0); // Red color for the "alarm clock" effect
    displayDate();
@@ -72,45 +65,62 @@ function drawPortfolio(rowIndex){
   let table = [];
 
   //header
-  table[0] = ["Stock", "Holding", "Gain", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
-
+  table[0] = ["Stock","30d return","Total Return", "Holding", "Avg. Price", "Fair Value", "Last Price", "Discount %" ]
+  //table[0] = ["Stock", "Holding", "Value", "Avg Price", "Gain", "NO shares", "Fair Value", "Last Price", "Discount %" ]
 
   bankBalance = 0;
 
   for (var i = 0; i < companies.length ; i++) { 
 
     let holding = fairValues[i].amount_invested;
-    bankBalance += holding;
 
     let last_price = parseFloat(companyPricesCSV.getColumn(companies[i].name)[rowIndex]);
     companies[i].latestPrice = last_price;
 
-    let no_shares = fairValues[i].amount_invested / fairValues[i].avg_price;
+    let no_shares = fairValues[i].no_shares;
 
     let current_value = no_shares * last_price;
     fairValues[i].current_value = current_value;
+    bankBalance += current_value;
 
-    let total_return = last_price/fairValues[i].avg_price * 100; //fairValues[i].capital_gain;
+    let total_return = ((last_price/fairValues[i].avg_price) - 1) * 100; //fairValues[i].capital_gain;
 
     let monthReturn = parseFloat(
-                      companyPricesCSV.getColumn(companies[i].name)[rowIndex]/
-                      companyPricesCSV.getColumn(companies[i].name)[rowIndex-30] * 100);
+                      (companyPricesCSV.getColumn(companies[i].name)[rowIndex]/
+                      companyPricesCSV.getColumn(companies[i].name)[rowIndex-30] - 1) * 100);
 
     let FV = fairValues[i].fv;
 
 
-    let discount = (fairValues[i].fv - last_price)/ fairValues[i].fv * 100;
+    //let discount = (fairValues[i].fv - last_price)/ fairValues[i].fv * 100;
+    let discount = ((fairValues[i].fv / last_price)-1) * 100;
     fairValues[i].discount = discount/100;
 
-    //["Stock", "Holding", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
+  //   avg_price: 77,
+  // amount_invested: 0,
+  // current_value: 0,
+  // capital_gain: 0,
+
+    //["Stock", "Holding", "Real Gain", "Total Return", "30d return", "Fair Value", "Last Price", "Discount %" ]
     table[i+1] = [companies[i].name.slice(0,7),
-                  "$" + holding.toFixed(0).toString(),
-                  "$" + (current_value-holding).toFixed(0).toString(),
-                  total_return.toFixed(0).toString() + "%", 
-                  monthReturn.toFixed(0).toString() + "%",
+                  monthReturn.toFixed(1).toString() + "%",
+                  (isFinite(total_return) && no_shares > 0 ? total_return.toFixed(1).toString() + "%" : "-"),
+                  "$" + current_value.toFixed(0).toLocaleString(),
+                  //"$" + fairValues[i].capital_gain.toFixed(0).toString(), 
+                  fairValues[i].avg_price.toFixed(2).toString(),
                   "$" + FV.toFixed(0).toString(),
-                  "$" + last_price.toFixed(0).toString(),
+                  "$" + last_price.toFixed(2).toString(),
                   discount.toFixed(0).toString() + "%"];
+
+  // table[i+1] = [companies[i].name.slice(0,7),
+  //                 "$" + holding.toFixed(0).toString(),
+  //                 "$" + (current_value).toFixed(0).toString(),
+  //                 fairValues[i].avg_price.toFixed(2).toString(),
+  //                 "$" + fairValues[i].capital_gain.toFixed(0).toString(), 
+  //                 no_shares.toFixed(1).toString(),
+  //                 "$" + FV.toFixed(0).toString(),
+  //                 "$" + last_price.toFixed(2).toString(),
+  //                 discount.toFixed(0).toString() + "%"];
 
   };
   
@@ -176,7 +186,7 @@ function incrementDay() {
 
 function displayDate() {
   textSize(14); // Reset text size for the date display
-  text("Goldman Pleasure Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop);
+  text("Goldman Pleasure Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop+20);
 }
 
 function displayInstruction() {
@@ -196,7 +206,9 @@ function displayBankBalance() {
   fill(255); // White text
   textSize(16); // Smaller text for the bank balance
   textAlign(RIGHT, TOP);
-  text(`$${bankBalance.toLocaleString()}`, terminalRight, terminalTop);
+  let txt = `$${bankBalance.toLocaleString()}`;
+  txt += " (" + (((bankBalance/100000) - 1) * 100).toFixed(1).toString() + "%)";
+  text(txt, terminalRight, terminalTop);
   textSize(14); // Even smaller text for "Cash" label
   //text('Cash', width - 140, 40);
 }
