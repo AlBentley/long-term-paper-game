@@ -3,7 +3,7 @@ let inputContainer;
 let fairValues = [
 {
   company:'TreadMaster Corp',
-  fv:33.63, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+  fv:33.63, 
   r:12288200,
   e:567000,
   pe:8.9977,
@@ -243,7 +243,15 @@ function keyPressed() {
       currentEventScene = 'financials'; // Switch to financials view
     } else if (keyCode === ENTER && currentEventScene === 'report') {
       currentScene = 2;
-      currentEventScene = 'event';
+      
+      //set scene to company intro for first month, otherwise get straight into the event
+      var targetDate = new Date('1995-02-01');
+      if (currentDate < targetDate){
+        currentEventScene = 'company';
+      } else {
+        currentEventScene = 'event';
+      }
+      
       eventSong.stop();
   }} else if (currentScene === 5) { //key handler for introduction splash screen
     if (currentIntroScene === 'splash') { 

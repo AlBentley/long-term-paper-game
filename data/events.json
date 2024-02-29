@@ -1,6 +1,24 @@
 {
     "events": [
       {
+        "date": "1995-01-08",
+        "company": "Pharama Industries",
+        "eventName": "",
+        "description": "*Future updates will be available here*"
+      },
+      {
+        "date": "1995-01-21",
+        "company": "HealthCare Haven",
+        "eventName": "",
+        "description": "*Future updates will be available here*"
+      },
+      {
+        "date": "1995-01-28",
+        "company": "DrillTech Industries",
+        "eventName": "",
+        "description": "*Future updates will be available here*"
+      },
+      {
         "date": "1995-01-02",
         "company": "TreadMaster Corp",
         "eventName": "TreadMaster Corp",
