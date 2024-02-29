@@ -44,7 +44,7 @@ let fairValues = [
   no_shares: 0
 },
 {
-  company:'Pharama Industries',
+  company:'PharmaVital Inc',
   fv:0.42,
   r:7443,
   e:-180310,

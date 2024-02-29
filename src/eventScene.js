@@ -308,7 +308,7 @@ function drawFinancials(company) {
       case 'HealthCare Haven':
       financials = healthcareCSV;
       break;
-      case 'Pharama Industries':
+      case 'PharmaVital Inc':
       financials = pharamaCSV;
       break;
       case 'Smart Mart':
