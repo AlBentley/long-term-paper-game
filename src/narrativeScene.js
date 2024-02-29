@@ -23,7 +23,7 @@ function setupNarrative() {
   inputContainer.hide();
 }
 
-function drawNarrative() {
+function drawNarratives() {
   if (!inputFieldsCreated) {
     createInputFields();
     inputFieldsCreated = true; // Prevent further calls
@@ -31,7 +31,6 @@ function drawNarrative() {
     inputContainer.show(); //Show input fields if narrativeScene is being reDrawn
   }
 }
-
 
 
 function createInputFields() {

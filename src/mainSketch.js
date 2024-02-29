@@ -3,36 +3,34 @@ let companies = [
   {
     name:'TreadMaster Corp', 
     description:'Description of company....',
-    latestPrice: [0,],
   },
   {
     name:'HealthCare Haven', 
     description:'Description of company....',
-    latestPrice: [0,],
   },
   {
     name:'DrillTech Industries', 
     description:'Description of company....',
-    latestPrice: [0,],
   },
   {
     name:'Pharama Industries', 
     description:'Description of company....',
-    latestPrice: [0,],
   },
   {
     name:'Smart Mart', 
     description:'Description of company....',
-    latestPrice: [0,],
   },
   ];
 
+
 let fairValues = [
 {
-  fv:100, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
-  r:0,
-  e:0,
-  pe:0,
+  company:'TreadMaster Corp',
+  fv:33.63, //only setting FV for now, padding out data structure for how it might scale if we tackle other aspects of forecasting
+  r:12288200,
+  e:567000,
+  pe:8.99,
+  outstanding:151533606,
   avg_price: 77,
   amount_invested: 3240,
   current_value: 0,
@@ -40,6 +38,7 @@ let fairValues = [
   discount: 0
 },
 {
+  company:'HealthCare Haven',
   fv:120,
   r:0,
   e:0,
@@ -51,6 +50,7 @@ let fairValues = [
   discount: 0
 },
 {
+  company:'DrillTech Industries',
   fv:110,
   r:0,
   e:0,
@@ -62,6 +62,7 @@ let fairValues = [
   discount: 0
 },
 {
+  company:'Pharama Industries',
   fv:190,
   r:0,
   e:0,
@@ -73,6 +74,7 @@ let fairValues = [
   discount: 0
 },
 {
+  company:'Smart Mart',
   fv:200,
   r:0,
   e:0,
@@ -85,9 +87,11 @@ let fairValues = [
 },
 ];
 let bgImg;
+let fairValueIndex = 0;
 let stockPrices = [];
 let eventsJSON = [];
 let companyPricesCSV; //Global variable for prices CSV
+let TreadMaster; //Global variable for TredMaster financials
 let song; // Variable to hold the song
 let bgImage; // Variable to hold the background image
 let pauseSong;
@@ -109,7 +113,7 @@ let lastEvent= { //remove this once we tidy up the UI
 
 let tableExample; // example of CSV
 let currentScene = 5; // Start with scene 1
-let currentEventScene = 'description';
+let currentEventScene = 'company';
 let currentIntroScene = 'splash';
 let isPlaying = true;
 let nextChangeTime = 0;
@@ -127,7 +131,8 @@ function preload() {
   bgImg = loadImage('img/terminal2.png'); // Make sure to place the correct path to your image
   loadJSON('data/stock_prices.json', loadData); // Load the stock prices from the JSON file
   eventsJSON = loadJSON('data/events.json');
-  companyPricesCSV = loadTable('companyPrices.csv', 'csv', 'header');
+  companyPricesCSV = loadTable('data/companyPrices.csv', 'csv', 'header');
+  treadMasterCSV = loadTable('data/treadmaster.csv', 'csv', 'header');
   // Load the song
   song = loadSound('short-test.mp3');
   pauseSong = loadSound('pause.mp3');
@@ -150,12 +155,11 @@ function loadData(data) {
   stockPrices = data.map(entry => entry.price);
 }
 
-
 function setup() {
 
   //createCanvas(windowWidth, windowHeight);
   noSmooth(); // This disables anti-aliasing, making the line pixelated
-
+  initializeInputsAndLabels();
   //set the aspect ratio
   
   createCanvas(windowWidth, windowWidth * aspectRatio);
@@ -209,46 +213,38 @@ function draw() {
   } else if (currentScene === 3) {
     drawNarrative();
   } else if (currentScene === 4) {
-    drawEvent(lastEvent);
+    drawEventScene(lastEvent);
   } else if (currentScene === 5) {
     drawIntro();
   }
 }
 function keyPressed() {
-    if (keyCode === 32) { // Space bar
-    if (!gameFinished) {
-      isPlaying = !isPlaying;
-      if (isPlaying && !song.isPlaying()) {
-        song.loop(); // Play the song if the game is playing
-      } else if (!isPlaying && song.isPlaying()) {
-        pauseSong.play();
-        song.pause(); // Pause the song if the game is paused  
-      }
-    } else {
-      resetGame();
-    }
-  } else if (currentScene === 4) { //key handler for Event scene
+  if (document.activeElement.tagName === 'INPUT') {
+    // If so, return and don't execute the rest of the code
+    return;
+  }
+  
+  if (currentScene === 4) { //key handler for Event scene
     //handle keyboard entry for events
-    if (keyCode === RIGHT_ARROW && currentEventScene === 'description') {
+    console.log('CURRENTSCENE:',currentEventScene)
+
+    if (keyCode === RIGHT_ARROW && currentEventScene === 'company') {
+      currentEventScene = 'event'; // Switch to financials view
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'event') {
+      currentEventScene = 'company'; // Switch to financials view
+    }else if (keyCode === RIGHT_ARROW && currentEventScene === 'event') {
       currentEventScene = 'financials'; // Switch to financials view
-      pageSong.play();
     } else if (keyCode === LEFT_ARROW && currentEventScene === 'financials') {
-      currentEventScene = 'description'; // Switch back to description view
-      pageSong.play();
-    } else if (keyCode === LEFT_ARROW && currentEventScene === 'narrative') {
-      currentEventScene = 'financials'; // Switch back to description view
-      pageSong.play();
+      currentEventScene = 'event'; // Switch back to description view
     } else if (keyCode === RIGHT_ARROW && currentEventScene === 'financials') {
+      currentEventScene = 'report'; // Switch back to description view
+    } else if (keyCode === LEFT_ARROW && currentEventScene === 'report') {
+      currentEventScene = 'financials'; // Switch to financials view
+    } else if (keyCode === ENTER && currentEventScene === 'report') {
       currentScene = 2;
-      currentEventScene = 'description';
+      currentEventScene = 'event';
       eventSong.stop();
-    } else if (key === 'U' || key === 'u') {
-      drawNarrative();
-    } else if (keyCode === ESCAPE) {
-      hideNarrative();
-    }
-  } else if (currentScene === 5) { //key handler for introduction splash screen
-    
+  }} else if (currentScene === 5) { //key handler for introduction splash screen
     if (currentIntroScene === 'splash') { 
       currentIntroScene = 'intro';
     } else if (currentIntroScene === 'intro') {
@@ -256,6 +252,8 @@ function keyPressed() {
     }
   }
 }
+
+
 
 // function windowResized() {
 //   resizeCanvas(windowWidth, windowWidth * aspectRatio);

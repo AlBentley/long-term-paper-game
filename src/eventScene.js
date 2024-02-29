@@ -1,19 +1,34 @@
+let inputs = [];
+let labels = [];
+let fairValueLabel;
 
 
 // SCENE CONTROLLER
-function drawEvent(event) {
+function drawEventScene(event) {
+  let companyName = event.company;
+  let company = companies.find(company => company.name === companyName);
+  fairValueIndex = fairValues.findIndex(fairValue => fairValue.company === companyName);
+  
   background(eventImage);
-  console.log(currentEventScene);
-  if (currentEventScene === 'description') {
-    drawDescription(event);
+  if (currentEventScene === 'company') {
+    drawCompanyInfo(company);
+    toggleInputsVisibility(false);
+  } else if (currentEventScene === 'event') {
+    toggleInputsVisibility(true);
+    drawEvent(event);
+    drawNarrative(fairValueIndex);
   } else if (currentEventScene === 'financials') {
-    drawFinancials(event);
-  } 
+    drawFinancials(company);
+    drawNarrative(fairValueIndex);
+    toggleInputsVisibility(true);
+  } else if (currentEventScene === 'report') {
+    drawReport(fairValueIndex);
+    toggleInputsVisibility(false);
+  }
 }
 
-// EVENT TEXT SCENE
-
-function drawDescription(event) {
+// COMPANY BACKGROUND SCREEN
+function drawCompanyInfo(company) {
   // Draw "paper"
   let paperX = 100;
   let paperY = 100;
@@ -28,139 +43,399 @@ function drawDescription(event) {
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text(event.eventName, width / 2, paperY + 30);
+  text(company.name, width / 2, paperY + 30);
+
+  textSize(16);
+  textAlign(LEFT, TOP);
+  text(company.description, paperX + 20, paperY + 60, paperWidth - 40); // Adjust padding as necessary
+  drawButton("News ->", "right");
+}
+
+// VALUTOR
+function initializeInputsAndLabels() {
+  // Create the wrapper div
+  inputWrapper = createDiv('');
+  inputWrapper.position((width / 3) * 2, 100);
+  
+  const inputNames = ["What might revenue be in 5 years?", "What might earnings be in 5 years?", "What is a reasonable future PE Multiple"];
+  const inputIds = [ "revenue", "earnings", "pe", "fv"]
+  const defaultValues = ["0", "0", "0"];
+
+  percentOverUnder = createDiv('');
+  percentOverUnder.parent(inputWrapper); // Set the wrapper as the parent
+  percentOverUnder.id('fvCurrent');
+  percentOverUnder.style('margin-bottom', '20px');
+  percentOverUnder.style('font-family', 'monospace');
+
+  inputNames.forEach((name, index) => {
+    let label = createDiv(name);
+    label.parent(inputWrapper); // Set the wrapper as the parent
+    label.style('margin-bottom', '10px');
+    let input = createInput(defaultValues[index]);
+    input.style('margin-bottom', '20px');
+    input.id(inputIds[index]);
+    input.parent(inputWrapper); // Set the wrapper as the parent
+    label.style('font-family', 'monospace');
+
+    input.input(() => {
+      let newValue = parseFloat(input.value()) || 0; // Parse input value, defaulting to 0 if NaN
+      // Update the corresponding property in fairValue based on input's ID
+      switch (inputIds[index]) {
+        case 'revenue':
+          fairValues[fairValueIndex].r = newValue;
+          break;
+        case 'earnings':
+          fairValues[fairValueIndex].e = newValue;
+          break;
+        case 'pe':
+          fairValues[fairValueIndex].pe = newValue;
+          break;
+      }
+
+      //calculate FV and update
+      let earnings = fairValues[fairValueIndex].e * 1000
+      let pe = fairValues[fairValueIndex].pe 
+      let outstanding = fairValues[fairValueIndex].outstanding
+      
+      let newFV = (earnings * pe) / outstanding;
+      
+      fairValues[fairValueIndex].fv = newFV;
+      console.log('Calculation: earnings of ',earnings, '* ratio of ', pe, '/ outstanding shares of ', outstanding, ' equal fv of', newFV);
+    });
+
+  });
+  fairValueLabel = createDiv('Your Fair Value: $0');
+  fairValueLabel.parent(inputWrapper); // Set the wrapper as the parent
+  fairValueLabel.id('fvOutput');
+  fairValueLabel.style('font-family', 'monospace');
+  
+
+  percentOverUnder = createDiv('Your Fair Value: $0');
+  percentOverUnder.parent(inputWrapper); // Set the wrapper as the parent
+  percentOverUnder.id('fvDiff');
+  percentOverUnder.style('font-family', 'monospace');
+  
+  toggleInputsVisibility(false);
+}
+
+function drawNarrative(fairValueIndex) {
+  let company = fairValues[fairValueIndex].company;
+  let priceData = companyPricesCSV.getColumn(company);
+  let priceRowIndex = companyPricesCSV.getArray().findIndex(x => x[0] === formatDate(currentDate));
+  let currentPrice = priceData[priceRowIndex];
+  let futurePrice = fairValues[fairValueIndex].fv;
+  let percentageChange = ((futurePrice - currentPrice) / currentPrice) * 100;
+
+
+  // Draw "paper"
+  let margin = 25;
+  let startX = ((width / 3) * 2) + (margin / 2);
+  let startY = 100;
+  let sectionWidth = (width / 3) - margin;
+  let inputGap = 75; // Gap between inputs
+  let newPositionY = 100;
+  
+  // Update the position of the inputWrapper
+  inputWrapper.position(startX + 60, startY + 50);
+  inputWrapper.style('width', '270px');
+
+  fill(255); // White paper
+  noStroke();
+  rect(startX, startY, sectionWidth, height - 150, 10); // Adjusted for showing the description
+
+   // Text "Your Forecast"
+   fill(0); // Black text
+   textSize(24);
+   textAlign(LEFT, TOP);
+   text("Your Assessment", startX + 8, startY + 15);
+   select('#revenue').value(fairValues[fairValueIndex].r);
+   select('#earnings').value(fairValues[fairValueIndex].e);
+   select('#pe').value(fairValues[fairValueIndex].pe);
+   let fvOutput = select('#fvOutput'); // Select the element by ID
+   fvOutput.html(`Fair Value: $${fairValues[fairValueIndex].fv}`); // Update its HTML content
+
+   let fvCurrent = select('#fvCurrent'); // Select the element by ID
+   fvCurrent.html(`The stock price is currently $${currentPrice}, enter forecasted revenues & earnings below to calculate your fair value.`); // Update its HTML content
+
+
+   let fvDiff = select('#fvDiff'); // Select the element by ID
+   
+   let backgroundColor;
+    if (parseFloat(currentPrice) === parseFloat(futurePrice)) {
+      valuationMessage = "Fairly valued";
+      backgroundColor = '#C1A200'; // Yellow for fairly priced
+    } else {
+      valuationMessage = `${percentageChange.toFixed(2)}% ${percentageChange > 0 ? "undervalued" : "overvalued"}`;
+      backgroundColor = percentageChange > 0 ? '#00C11C' : '#C10000'; // Red for overvalued, Green for undervalued
+    }
+  
+  
+
+
+  fvDiff.html(valuationMessage); // Update its HTML content
+  fvDiff.style('background-color', backgroundColor); // Set background color based on valuation
+  fvDiff.style('border-radius', '8px'); // Rounded corners
+  fvDiff.style('padding', '10px'); // Some padding for aesthetics
+  fvDiff.style('color', '#FFFFFF'); // Text color
+  fvDiff.style('font-weight', 'bold'); // Bold text
+  fvDiff.style('text-align', 'center'); // Center-align text
+  fvDiff.style('margin-top', '10px'); // Margin top for spacing
+  fvDiff.style('width', 'fit-content'); // Adjust width to fit content
+  fvDiff.style('margin-left', 'auto'); // Centering the div horizontally
+  fvDiff.style('margin-right', 'auto'); // Centering the div horizontally
+}
+
+function toggleInputsVisibility(show) {
+  if (show) {
+    inputWrapper.style('display', 'block');
+  } else {
+    inputWrapper.style('display', 'none');
+  }
+}
+
+
+// EVENT SCENE
+function drawEvent(event) {
+  let paperX = 10;
+  let paperY = 100;
+  let margin = 25;
+  let paperWidth = (width / 3 * 2) - margin; // To thirds of the screen minus 100 margin
+  let paperHeight = height - 150; // Adjusted for only showing the description
+  
+
+  fill(255); // White paper
+  noStroke();
+  rect(paperX + (margin/2), paperY, paperWidth, paperHeight, 10); // Slightly rounded corners
+
+  // Event Name and Description
+  fill(0); // Black text
+  textSize(24);
+  textAlign(CENTER, CENTER);
+  text(event.eventName, paperWidth / 2 , paperY + 30);
 
   textSize(16);
   textAlign(LEFT, TOP);
   text(event.description, paperX + 20, paperY + 60, paperWidth - 40); // Adjust padding as necessary
+  drawButton("<- Company Info", "left");
   drawButton("Financials ->", "right");
-  drawButton("[U] Update Narrative", "middle");
 }
 
 // FINANCIAL SCENE
+function drawFinancials(company) {
+  let financials; //where we'll put the finacial data
 
-function drawFinancials(event) {
+  switch (company.name) {
+    case 'TreadMaster Corp':
+      financials = treadMasterCSV;
+      break;
+    case 'earnings':
+      financials = treadMasterCSV;
+      break;
+    case 'pe':
+      financials = treadMasterCSV;
+      break;
+  }
+  
+  //revenue
+  let revenueAndEarningsData = new p5.Table();
+  let currentYear = currentDate.getFullYear();
+// Add columns for Date and Revenue
+  revenueAndEarningsData.addColumn('Date');
+  revenueAndEarningsData.addColumn('Revenue');
+  revenueAndEarningsData.addColumn('Earnings');
+
+
+  for (let r = 0; r < financials.getRowCount(); r++) {
+    let row = financials.getRow(r);
+    let yearString = row.getString("Date"); // Assuming this is just the year in "YYYY" format
+    let revenueString = row.getString("Revenue").replace(/,/g, ''); // Remove commas and convert to number
+    let earningsString = row.getString("Earnings").replace(/,/g, ''); // Remove commas and convert to number
+    let revenue = parseFloat(revenueString);
+    let earnings = parseFloat(earningsString);
+    
+    // Convert the year string to an integer for comparison
+    let rowYear = parseInt(yearString);
+  
+    // Add row to revenueAndEarningsData only if rowYear is less than or equal to currentYear
+    if (rowYear <= currentYear) {
+      let newRow = revenueAndEarningsData.addRow();
+      newRow.setString('Date', yearString);
+      newRow.setNum('Revenue', revenue);
+      newRow.setNum('Earnings', earnings);
+    }
+  }
+
+
+  
+  
   // Define the paper area
   // Draw "paper"
-  let paperX = 100;
+  let paperX = 10;
   let paperY = 100;
-  let paperWidth = width - 200;
-  let paperHeight = height - 200; // Adjusted for only showing the description
+  let margin = 25;
+  let paperWidth = (width / 3 * 2) - margin; // To thirds of the screen minus 100 margin
+  let paperHeight = height - 150; // Adjusted for only showing the description
+
+// Adjusted chart position and size to fit within the white rectangle
+let chartMargin = 75; // Additional margin inside the rectangle for the chart
+let chartX = paperX + (margin / 2) + chartMargin; // Start chart inside the rectangle
+let chartY = paperY + chartMargin; // Adjust y-position to start inside the rectangle
+let chartWidth = paperWidth - (chartMargin * 4.5 ); // Adjust chart width to fit inside the rectangle
+let chartHeight = (paperHeight / 2) - (chartMargin * 1.5);
+
 
   fill(255); // White paper
   noStroke();
-  rect(paperX, paperY, paperWidth, paperHeight, 10); // Slightly rounded corners
-
+  rect(paperX + (margin/2), paperY, paperWidth, paperHeight, 10); // Slightly rounded corners
+  
 
   // Financials Name and Description
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text("Revenue & Earnings", width / 2, paperY + 30);
+  text("Revenue & Earnings", paperWidth / 2 , paperY + 30);
+  drawButton("<- News", "left");
+  drawButton("Your Report", "right");
+  drawBarChartFinancials(revenueAndEarningsData, chartX, chartY, chartWidth, chartHeight);
+  let tableStartY = chartY + chartHeight + 100; // Start the table 50 pixels below the chart
+  drawTableBelowChart(revenueAndEarningsData, chartX - 50, tableStartY, paperWidth - chartMargin, 200);
+}
 
+// YOUR NARRATIBE
+function drawReport(fairValueIndex) {
 
-  // Define the graph area (inside the paper)
-  let graphX = paperX + 100;
-  let graphY = paperY + 150;
-  let graphWidth = paperWidth - 100; // Leave some padding on sides
-  let graphHeight = paperHeight - 200; // Adjust based on the position of text
+  let company = fairValues[fairValueIndex].company;
+  let fv = fairValues[fairValueIndex].fv
+  // Draw "paper"
+  let paperX = 100;
+  let paperY = 200;
+  let paperWidth = width - 200;
+  let paperHeight = height / 5; // Adjusted for only showing the description
 
-  // Find the maximum value in both datasets to set the scale
-  let maxRevenue = max(event.financials.revenue);
-  let maxEarnings = max(event.financials.earnings);
-  let maxValue = max(maxRevenue, maxEarnings);
+  fill(255); // White paper
+  noStroke();
+  rect(paperX, paperY, paperWidth, paperHeight, 10); // Slightly rounded corners
 
-  // Optionally, draw the axis for the graph
-  drawAxis(graphX, graphY, graphWidth, graphHeight);
+  // Event Name and Description
+  fill(0); // Black text
+  textSize(24);
+  textAlign(CENTER, CENTER);
+  text("Your Report", width / 2, paperY + 30);
 
-  // Legend for the chart
-  drawLegend(graphX + graphWidth - 120, graphY, [
-    { label: "Revenue", color: 'rgb(35, 148, 223)' },
-    { label: "Earnings", color: 'rgb(114, 231, 214)' }
-  ]);
-  
-    // Add Y-axis values
-  drawYAxisValues(graphX, graphY, graphHeight, maxValue);
-  drawButton("<- Event", "left");
-  drawButton("Continue ->", "right");
-  drawButton("[U] Update Narrative", "middle");
-  // Draw the line charts on the same axis
-  drawLineGraph(event.financials.revenue, graphX, graphY, graphWidth, graphHeight, maxValue, 'rgb(35, 148, 223)');
-  drawLineGraph(event.financials.earnings, graphX, graphY, graphWidth, graphHeight, maxValue, 'rgb(114, 231, 214)');
+  textSize(16);
+  textAlign(LEFT, TOP);
+  drawButton("<- Financials", "left");
+  drawButton("Submit [enter]", "right");
+  text(`Well done! Your assessment of ${company} is that it's fair value is $${fv}. Submit your report to your boss to ensure your fund takes appropriately allocations funds.`, paperX + 20, paperY + 80, paperWidth - 40); 
+
 }
 
 
+function drawTableBelowChart(data, startX, startY, tableWidth, tableHeight) {
+  let numberOfRows = data.getRowCount();
+  let numberOfColumns = 3; // Including Date, Revenue, and Earnings
+  let columnWidth = tableWidth / numberOfColumns;
+  let rowHeight = 20;
+  let headersHeight = 20;
 
-
-
-
-
-
-//GRAPH FUNCTIONS
-
-function drawLegend(x, y, items) {
-  let btnWidth = 100; // Width of the Next button for reference
-  let legendWidth = 100; // Assuming legend width for calculation
-  let legendX = width - btnWidth - legendWidth - 40; // Adjust legend X to avoid overlap, 40 is the margin
-  let legendY = y - 80; // Keep the Y position as passed to the function
-
-  items.forEach((item, index) => {
-    fill(item.color);
-    noStroke();
-    rect(legendX, legendY + 30 * index, 20, 20); // Draw colored box
-
-    fill(0); // Black text
-    textSize(14);
-    text(item.label, legendX + 65, legendY + 10 + 30 * index); // Offset text to the right of the box
-  });
-}
-
-function drawYAxisValues(x, y, height, maxValue) {
-  const steps = 4; // Number of steps or "ticks" on the y-axis
-  const stepValue = maxValue / steps;
-  const stepHeight = height / steps;
-
-  for (let i = 0; i <= steps; i++) {
-    let value = stepValue * i; // Calculate the value for this step
-    let yPos = y + height - i * stepHeight; // Calculate the y position for this step
-
-    fill(0); // Black text
-    noStroke();
-    textSize(12);
-    textAlign(RIGHT, CENTER);
-    text(`$${nf(value, 1, 2)}`, x - 10, yPos); // Use template literals to include the $ symbol
-  }
-}
-
-// Adjusted drawLineGraph to include maxValue for scaling
-function drawLineGraph(data, x, y, width, height, maxValue, color) {
-  stroke(color);
-  strokeWeight(2);
-  noFill();
-  beginShape();
-  for (let i = 0; i < data.length; i++) {
-    let xPos = map(i, 0, data.length - 1, x, x + width);
-    let yPos = map(data[i], 0, maxValue, y + height, y);
-    vertex(xPos, yPos);
-  }
-  endShape();
-}
-
-// Function to draw the graph axis
-function drawAxis(x, y, width, height) {
+  textSize(12);
   stroke(0);
   strokeWeight(1);
-  fill(255);
 
-  // Draw axis lines
-  line(x, y, x, y + height); // Y-axis
-  line(x, y + height, x + width, y + height); // X-axis
+ // Draw headers with consistent background and centered text
+fill(240); // Light gray background for headers
+for (let i = 0; i < numberOfColumns; i++) {
+  let headerX = startX + i * columnWidth;
+  rect(headerX, startY, columnWidth, headersHeight);
+}
+
+// Ensure text color is set to black (or a visible color against the header background)
+fill(0); // Black for text visibility
+textAlign(CENTER, CENTER);
+text("Date", startX + columnWidth / 2, startY + headersHeight / 2);
+text("Revenue", startX + columnWidth * 1.5, startY + headersHeight / 2);
+text("Earnings", startX + columnWidth * 2.5, startY + headersHeight / 2);
+
+  // Draw data rows
+  for (let i = 0; i < numberOfRows; i++) {
+    let rowY = startY + headersHeight + (i * rowHeight);
+    for (let j = 0; j < numberOfColumns; j++) {
+      let cellX = startX + j * columnWidth;
+      fill(0); // Reset for text
+      textAlign(CENTER, CENTER); // Center text within each cell
+      let textValue;
+      if (j == 0) {
+        textValue = data.getString(i, 'Date');
+      } else if (j == 1) {
+        textValue = data.getNum(i, 'Revenue').toLocaleString('en-US');
+      } else if (j == 2) {
+        textValue = data.getNum(i, 'Earnings').toLocaleString('en-US');
+      }
+      text(textValue, cellX + columnWidth / 2, rowY + rowHeight / 2);
+    }
+  }
+
+  // Draw the table grid
+  noFill();
+  rect(startX, startY, tableWidth, headersHeight + numberOfRows * rowHeight);
+  // Vertical lines
+  for (let i = 0; i <= numberOfColumns; i++) {
+    line(startX + i * columnWidth, startY, startX + i * columnWidth, startY + headersHeight + numberOfRows * rowHeight);
+  }
+  // Horizontal lines
+  for (let j = 0; j <= numberOfRows + 1; j++) {
+    line(startX, startY + j * rowHeight, startX + tableWidth, startY + j * rowHeight);
+  }
 }
 
 
 
 
 
+function drawBarChartFinancials(data, xPos, yPos, wSize, hSize) {
+  let numberOfRows = data.getRowCount();
+  let numberOfColumns = data.getColumnCount();
+  let tempRevenueValues = [];
+  let tempEarningsValues = [];
+
+  // Extract revenue and earnings data
+  for (let i = 0; i < numberOfRows; i++) {
+    tempRevenueValues.push(data.getNum(i, "Revenue")); // Assuming the second column is "Revenue"
+    tempEarningsValues.push(data.getNum(i, "Earnings")); // Assuming the third column is "Earnings"
+  }
+
+  // Determine highest value for scaling
+  let maxValue = max(tempRevenueValues.concat(tempEarningsValues));
+
+  fill(0);
+  stroke(0);
+  textSize(11);
+  let padding = 20;
+  let barWidth = 15; // Width of each bar
+  let gap = (wSize - (2 * padding)) / numberOfRows - barWidth; // Gap between groups of bars
+
+  for (let i = 0; i < numberOfRows; i++) {
+    // Place years
+    text(data.getString(i, 0), xPos + i * (2 * barWidth + gap) + padding, yPos + hSize + 15); // Adjust text positioning as needed
+
+    // Draw revenue bar
+    fill(0, 255, 0); // Green for revenue
+    let revenueHeight = tempRevenueValues[i] / maxValue * (hSize - padding);
+    rect(xPos + i * (2 * barWidth + gap) + padding, yPos + hSize - revenueHeight, barWidth, revenueHeight);
+
+    // Draw earnings bar
+    fill(255, 0, 0); // Red for earnings
+    let earningsHeight = tempEarningsValues[i] / maxValue * (hSize - padding);
+    rect(xPos + i * (2 * barWidth + gap) + padding + barWidth, yPos + hSize - earningsHeight, barWidth, earningsHeight);
+  }
+
+  // Draw axis labels and steps
+  let step = Math.round(maxValue / 10 / 50) * 50;
+  for (let k = 0; k <= maxValue; k += step) {
+    let y = yPos + hSize - (k / maxValue * (hSize - padding));
+    text(k, xPos - 30, y); // Position y-axis labels
+  }
+}
 
 
 
