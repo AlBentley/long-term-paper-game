@@ -13,6 +13,10 @@ function drawEventScene(event) {
   if (currentEventScene === 'company') {
     drawCompanyInfo(company);
     toggleInputsVisibility(false);
+    let descDiv = select('#company-update');
+    if (descDiv){
+      descDiv.remove();
+    }
   } else if (currentEventScene === 'event') {
     let descDiv = select('#company-description');
     if (descDiv){
@@ -22,6 +26,10 @@ function drawEventScene(event) {
     drawEvent(event);
     drawNarrative(fairValueIndex);
   } else if (currentEventScene === 'financials') {
+    let descDiv = select('#company-update');
+    if (descDiv){
+      descDiv.remove();
+    }
     drawFinancials(company);
     drawNarrative(fairValueIndex);
     toggleInputsVisibility(true);
@@ -32,25 +40,12 @@ function drawEventScene(event) {
 }
 
 function convertMarkdownToHTML(markdown) {
-  // Convert headings
   markdown = markdown.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-
-  // Convert bold text
   markdown = markdown.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
-
-  // Convert italic text
   markdown = markdown.replace(/\*(.*?)\*/gim, '<em>$1</em>');
-
-    // Convert line breaks
   markdown = markdown.replace(/\n/gim, '<br />');
-
-  // Handle bold followed by line break
   markdown = markdown.replace(/<\/strong><br \/>/gim, '</strong>');
-
-  // Ensure correct HTML structure by wrapping in a div
   let html = `<div style="font-family: 'Courier New', Courier, monospace;">${markdown}</div>`;
-
-
   return html;
 }
 
@@ -58,7 +53,7 @@ function convertMarkdownToHTML(markdown) {
 // COMPANY BACKGROUND SCREEN
 function drawCompanyInfo(company) {
 
-  let descDiv = select('#company-description');
+
   
   let paperX = 10;
   let paperY = 100;
@@ -75,9 +70,9 @@ function drawCompanyInfo(company) {
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text(company.name, width / 2, 120);
+  text("Company Overview", width / 2, 120);
   
-
+  let descDiv = select('#company-description');
   if (!descDiv) {
     // If it doesn't exist, create it
     descDiv = createDiv();
@@ -98,7 +93,7 @@ function drawCompanyInfo(company) {
   let htmlContent = convertMarkdownToHTML(company.description);
   descDiv.html(htmlContent);
 
-  drawButton("News ->", "right");
+  drawButton("Updates ->", "right");
 }
 
 // VALUTOR
@@ -261,11 +256,30 @@ function drawEvent(event) {
   fill(0); // Black text
   textSize(24);
   textAlign(CENTER, CENTER);
-  text(event.eventName, paperWidth / 2 , paperY + 30);
+  text("Updates", paperWidth / 2 , paperY + 30);
 
-  textSize(16);
-  textAlign(LEFT, TOP);
-  text(event.description, paperX + 20, paperY + 60, paperWidth - 40); // Adjust padding as necessary
+  let descDiv = select('#company-update');
+  if (!descDiv) {
+    // If it doesn't exist, create it
+    descDiv = createDiv();
+    descDiv.id('company-update');
+    descDiv.style('position', 'absolute');
+    descDiv.style('top', '150px');
+    descDiv.style('left', (paperX + 75) + 'px');
+    descDiv.style('width', (paperWidth - 10) + 'px');
+    descDiv.style('height', (height - 250) + 'px');
+    descDiv.style('overflow-y', 'scroll'); // Enable vertical scrolling
+    descDiv.style('background', 'white');
+    descDiv.style('padding', '20px');
+    descDiv.style('box-sizing', 'border-box'); // Include padding in the div's dimensions
+    descDiv.style('border-radius', '10px'); // Match the canvas corners
+    descDiv.parent('sketch-holder'); // Attach it to the sketch holder
+  }
+
+  let htmlContent = convertMarkdownToHTML(event.description);
+  descDiv.html(htmlContent);
+
+
   drawButton("<- Company Info", "left");
   drawButton("Financials ->", "right");
 }
@@ -344,7 +358,7 @@ let chartHeight = (paperHeight / 2) - (chartMargin * 1.5);
   textSize(24);
   textAlign(CENTER, CENTER);
   text("Revenue & Earnings", paperWidth / 2 , paperY + 30);
-  drawButton("<- News", "left");
+  drawButton("<- Updates", "left");
   drawButton("Your Report", "right");
   drawBarChartFinancials(revenueAndEarningsData, chartX, chartY, chartWidth, chartHeight);
   let tableStartY = chartY + chartHeight + 100; // Start the table 50 pixels below the chart
