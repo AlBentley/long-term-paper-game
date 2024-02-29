@@ -31,10 +31,10 @@ function drawSplash() {
 function drawInstructions() {
   background(bgBoss);
   // Draw "paper"
-  let paperX = width / 4;
+  let paperX = width / 6;
   let paperY = height / 2;
-  let paperWidth = width / 2;
-  let paperHeight = height / 5; // Adjusted for only showing the description
+  let paperWidth = (width / 3) * 2;
+  let paperHeight = height / 4; // Adjusted for only showing the description
 
   fill(0); // White paper
   noStroke();
