@@ -86,16 +86,19 @@ function reviewPortfolio(rowIndex){
                                     "The tradedesk just sold " + numShares.toFixed(0) + " shares of " + companies[i].name + " based on your fair value!!");
             helpOverlay.push({txt: txt2, img: tradeImg[int(random(0, 2))], milliSec: millis() + (2000*i)});
             // Set a timeout to play the sound after 3000 milliseconds (3 seconds)
-            setTimeout(() => {
-                cashSong.play();
-            }, 2000*i);
+            
+            // setTimeout(() => {
+                
+            // }, 2000*i);
             
             tradeLog.unshift(updateText);
             console.log(updateText);
 
 
         }
+        
     }
+    cashSong.play();
 
 }
 
