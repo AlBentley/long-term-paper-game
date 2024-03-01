@@ -105,7 +105,7 @@ function initializeInputsAndLabels() {
   
   positionInputWrapper()
   
-  const inputNames = ["What might revenue be in 5 years?", "What might earnings be in 5 years?", "What is a reasonable future PE Multiple"];
+  const inputNames = ["What might revenue be in 5 years?", "What might earnings be in 5 years?", "What is a reasonable future PE Multiple?"];
   const inputIds = [ "revenue", "earnings", "pe", "fv"]
   const defaultValues = ["0", "0", "0"];
 

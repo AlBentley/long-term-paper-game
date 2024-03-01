@@ -31,10 +31,10 @@ let fairValues = [
 },
 {
   company:'DrillTech Industries',
-  fv:9.31,
+  fv:9.13,
   r:5661100,
   e:175400,
-  pe:4.438545154,
+  pe:4.352730103,
   outstanding:83622000,
   avg_price: 0,
   amount_invested: 0,
