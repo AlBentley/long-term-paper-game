@@ -234,7 +234,54 @@ function draw() {
   } else if (currentScene === 6) {
     drawEnding();
   }
+
+  //drawHelpOverLay();
+
 }
+
+function drawHelpOverLay(){
+    
+  // Define the rectangle and its properties
+  let rectX = 50; // X position of the rectangle
+  let rectWidth = 500; // Width of the rectangle
+  let rectHeight = 100; // Height of the rectangle
+
+  let myImage = tradeImg[0];
+
+  let rectY = height - rectHeight - 20; // Y position of the rectangle
+  let cornerRadius = 20; // Corner radius for rounded corners
+  
+  // Draw the rectangle with rounded corners
+  fill(255); // Set the fill color for the rectangle
+  noStroke(); // No stroke for the rectangle
+  rect(rectX, rectY, rectWidth, rectHeight, cornerRadius);
+  
+  // Calculate the image size to fit the height of the rectangle
+  let imageHeight = rectHeight;
+  let imageWidth = (myImage.width * imageHeight) / myImage.height;
+  
+  // Draw the image on the left side of the rectangle
+  image(myImage, rectX + cornerRadius, rectY, imageWidth, imageHeight);
+  
+  // Set up the text properties
+  fill(0); // Set the text color
+  textSize(18); // Set the text size
+  
+  textAlign(LEFT, TOP);
+  // Define the text box dimensions and position
+  let textBoxX = rectX + imageWidth + 20 + cornerRadius; // X position of the text box, with some padding from the image
+  let textBoxY = rectY + 20; // Y position of the text box, with some padding from the top of the rectangle
+  let textBoxWidth = rectWidth - imageWidth - 40; // Width of the text box, accounting for padding
+  let textBoxHeight = rectHeight - 40; // Height of the text box, accounting for padding
+  
+  // The text to display
+  let textContent = "Your text goes here. Adjust the content, size, and positioning as needed.";
+  
+  // Draw the text within the text box area
+  text(textContent, textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+}
+
+
 function keyPressed() {
   if (document.activeElement.tagName === 'INPUT') {
     // If so, return and don't execute the rest of the code
