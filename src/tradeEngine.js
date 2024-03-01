@@ -82,8 +82,8 @@ function reviewPortfolio(rowIndex){
             fairValues[i].no_shares = (existingShares + numShares);
             
             //debugger
-            let txt2 = (diff > 0 ? "The tradedesk just bought " + companies[i].name + " based on your fair value!!" :
-                                    "The tradedesk just sold " + companies[i].name + " based on your fair value!!");
+            let txt2 = (diff > 0 ? "The tradedesk just bought " + numShares.toFixed(0) + " shares of " + companies[i].name + " based on your fair value!!" :
+                                    "The tradedesk just sold " + numShares.toFixed(0) + " shares of " + companies[i].name + " based on your fair value!!");
             helpOverlay.push({txt: txt2, img: tradeImg[int(random(0, 2))], milliSec: millis() + (2000*i)});
             // Set a timeout to play the sound after 3000 milliseconds (3 seconds)
             setTimeout(() => {
