@@ -286,7 +286,7 @@ function drawEvent(event) {
 
     // post message
 
-    let txt2 = companies[fairValueIndex].name + " just announced earnings! \n\n Time to update your Fair Value.";
+    let txt2 = companies[fairValueIndex].name + " just announced earnings! \n Update your Earnings forecast 🙏";
     helpOverlay.push({txt: txt2, img: eventImg[int(random(0, 2))], milliSec: millis() + (3000)});
   }
 
