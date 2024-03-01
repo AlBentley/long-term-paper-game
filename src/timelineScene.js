@@ -212,7 +212,8 @@ function incrementDay() {
 
 function displayDate() {
   textSize(14); // Reset text size for the date display
-  text("Goldman XXX Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop+10);
+  textStyle(BOLD);
+  text("Goldman XXX Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop +2);
 }
 
 function displayInstruction() {
