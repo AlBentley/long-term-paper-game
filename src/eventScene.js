@@ -126,6 +126,7 @@ function initializeInputsAndLabels() {
     input.style('font-family', 'Courier, monospace');
     input.style('font-size', '16px');
     input.input(() => {
+      let newPEVal = parseFloat(input.value());
       let newValue = removeCommasAndConvertToNumber(input.value()) || 0; // Parse input value, defaulting to 0 if NaN
       // Update the corresponding property in fairValue based on input's ID
       switch (inputIds[index]) {
@@ -137,7 +138,7 @@ function initializeInputsAndLabels() {
           fairValues[fairValueIndex].e = newValue;
           break;
         case 'pe':
-          fairValues[fairValueIndex].pe = newValue;
+          fairValues[fairValueIndex].pe = newPEVal;
           break;
       }
 
@@ -205,7 +206,7 @@ function drawNarrative(fairValueIndex) {
    text("Your Assessment", startX + 8, startY + 15);
    select('#revenue').value(formatNumberWithCommas(fairValues[fairValueIndex].r));
    select('#earnings').value(formatNumberWithCommas(fairValues[fairValueIndex].e));
-   select('#pe').value(fairValues[fairValueIndex].pe.toFixed(2));
+   select('#pe').value(fairValues[fairValueIndex].pe);
    let fvOutput = select('#fvOutput'); // Select the element by ID
    fvOutput.html(`Fair Value: $${fairValues[fairValueIndex].fv.toFixed(2)} <br>Last Share Price: $${companies[fairValueIndex].latestPrice.toFixed(2)}`); // Update its HTML content
 
