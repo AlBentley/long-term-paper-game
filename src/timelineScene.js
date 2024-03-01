@@ -162,7 +162,7 @@ function incrementDate(){
   if (!gameFinished) {
     if (isPlaying && millis() > nextChangeTime) {
       incrementDay();
-      nextChangeTime = millis() + 50; // Next increment in 0.5 seconds
+      nextChangeTime = millis() + 100; // Next increment in 0.5 seconds
     }
    
   } else {
