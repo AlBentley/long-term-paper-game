@@ -54,8 +54,6 @@ function convertMarkdownToHTML(markdown) {
 
 // COMPANY BACKGROUND SCREEN
 function drawCompanyInfo(company) {
-
-
   
   let paperX = 10;
   let paperY = 100;
@@ -100,6 +98,7 @@ function drawCompanyInfo(company) {
 
 // VALUTOR
 function initializeInputsAndLabels() {
+
   // Create the wrapper div
   inputWrapper = createDiv('');
   
@@ -284,6 +283,11 @@ function drawEvent(event) {
     descDiv.style('box-sizing', 'border-box'); // Include padding in the div's dimensions
     descDiv.style('border-radius', '10px'); // Match the canvas corners
     descDiv.parent('sketch-holder'); // Attach it to the sketch holder
+
+    // post message
+
+    let txt2 = companies[fairValueIndex].name + " just announced earnings! \n\n Time to update your Fair Value.";
+    helpOverlay.push({txt: txt2, img: eventImg[int(random(0, 2))], milliSec: millis() + (3000)});
   }
 
   let htmlContent = convertMarkdownToHTML(event.description);

@@ -201,6 +201,7 @@ function incrementDay() {
     eventSong.loop();
     lastEvent=matchingEvent;
     currentScene = 4;
+
   }
 
 

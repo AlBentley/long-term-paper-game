@@ -82,7 +82,9 @@ function reviewPortfolio(rowIndex){
             fairValues[i].no_shares = (existingShares + numShares);
             
             //debugger
-
+            let txt2 = (diff > 0 ? "The tradedesk just bought " + companies[i].name + " based on your fair value!!" :
+                                    "The tradedesk just sold " + companies[i].name + " based on your fair value!!");
+            helpOverlay.push({txt: txt2, img: tradeImg[int(random(0, 2))], milliSec: millis() + (2000*i)});
             tradeLog.unshift(updateText);
             console.log(updateText);
 
