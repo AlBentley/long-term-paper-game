@@ -133,6 +133,7 @@ function preload() {
   //song = loadSound('mp3/short-test.mp3');
   pauseSong = loadSound('mp3/pause.mp3');
   pageSong = loadSound('mp3/page.mp3');
+  cashSong = loadSound('mp3/cash.mp3');
   eventSong = loadSound('mp3/event.mp3');
   musicTime = loadSound('mp3/music.mp3');
   timelineMusic = [];
@@ -253,7 +254,7 @@ function drawHelpOverLay(){
       myImage = helpOverlay[i].img;
       break;
       //play relevant sound here
-      
+
     }
   }
 
