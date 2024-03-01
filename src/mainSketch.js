@@ -140,7 +140,7 @@ function preload() {
   timelineMusic[0] = loadSound('mp3/1.mp3');
   timelineMusic[1] = loadSound('mp3/2.mp3');
   timelineMusic[2] = loadSound('mp3/3.mp3');
-  let n = 0.25;
+  let n = 0.1;
   timelineMusic[0].setVolume(n);
   timelineMusic[1].setVolume(n);
   timelineMusic[2].setVolume(n);
