@@ -392,7 +392,7 @@ let chartHeight = (paperHeight / 2) - (chartMargin * 1.5);
 function drawReport(fairValueIndex) {
 
   let company = fairValues[fairValueIndex].company;
-  let fv = fairValues[fairValueIndex].fv.toFixed(2);
+  let fv = fairValues[fairValueIndex].fv;
   // Draw "paper"
   let paperX = 100;
   let paperY = 200;
