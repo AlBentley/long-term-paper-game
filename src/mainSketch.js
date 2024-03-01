@@ -143,6 +143,16 @@ function preload() {
   introImage = loadImage('splash.jpg');
   eventImage = loadImage('event.png');
 
+  //rooms
+  tradeImg = [];
+  tradeImg[0] = loadImage('img/trade1.png');
+  tradeImg[1] = loadImage('img/trade2.png');
+  tradeImg[2] = loadImage('img/trade3.png');
+  eventImg = [];
+  eventImg[0] = loadImage('img/event1.png');
+  eventImg[1] = loadImage('img/event2.png');
+  eventImg[2] = loadImage('img/event3.png');
+
 
   tableExample = loadTable("data/example.csv", "csv", "header");
 }
