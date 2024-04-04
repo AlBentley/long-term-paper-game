@@ -37,6 +37,8 @@ function drawEventScene(event) {
     drawReport(fairValueIndex);
     toggleInputsVisibility(false);
   }
+
+  displayTimeLine();
 }
 
 function convertMarkdownToHTML(markdown) {
@@ -531,9 +533,6 @@ function drawBarChartFinancials(data, xPos, yPos, wSize, hSize) {
 //NEXT BUTTON FUNCS
 
 function drawButton(buttonText, placement, symbol) {
-  // Button dimensions
-  let btnWidth = 210;
-  let btnHeight = 50;
 
   // Determine button X position based on placement param
   let btnX;

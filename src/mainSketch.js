@@ -111,6 +111,10 @@ let currentDate = new Date(1995, 0, 1);
 let rowIndex = 0; // To keep track of the current index in the loaded data
 let aspectRatio = (600/800);
 
+// Button dimensions
+let btnWidth = 210;
+let btnHeight = 50;
+
 let tradeLog = [];
 
 let helpOverlay = [];
@@ -247,6 +251,37 @@ function draw() {
 
 }
 
+function displayTimeLine(){
+  let widthBar = btnWidth/1.5;
+  let left = (width / 2) - (widthBar);
+  let heightBar = 15;
+  let startDate = new Date(1995, 0, 1);
+  let endDate = new Date(2005, 0, 1);
+  let Progress = map(currentDate,startDate,endDate,0,100);
+
+  fill(0);
+  rect(left,-15,(widthBar*2),heightBar + 20 + 15,10)
+
+  fill(0,255,0);
+  
+  blendMode(BLEND);
+  rect(left,heightBar,max(Progress/100 * (widthBar*2), 20),20,10)
+  strokeWeight(1);
+  stroke(0,255,0)
+  noFill();
+  rect(left,heightBar,(widthBar*2),20,10);
+
+  blendMode(DIFFERENCE);
+  fill(0,255,0);
+  strokeWeight(0);
+  textSize(12);
+  textFont('monospace')
+  textAlign(CENTER, CENTER);
+  let txt = text('Game Progress: '+ Progress.toFixed(0) + '%',width /2,heightBar + 10);
+
+  blendMode(BLEND);
+}
+
 function drawHelpOverLay(){
 
   let txt;
@@ -355,9 +390,73 @@ function keyPressed() {
       currentIntroScene = 'intro';
       musicTime.play();
     } else if (currentIntroScene === 'intro') {
+      currentIntroScene = 'onboarding';
+    } else if (currentIntroScene === 'onboarding') {
       currentScene = 2;
     }
   }
+}
+
+//whenever the mouse is pressed
+function mousePressed(){
+	//if the mouse is over the rectangle
+
+  if (currentScene === 4) {
+
+  // Determine button X position based on placement param
+  let btnX = 20;
+  let btnY = 20; // Position from the top
+
+  //rect(btnX, btnY, btnWidth, btnHeight, 15); // Rounded corners
+
+    if ((mouseX > btnX) && (mouseX < btnX + btnWidth) &&
+        (mouseY > btnY) && (mouseY < btnY + btnHeight)) {
+
+        //LEFT BUTTON
+
+        if (currentEventScene === 'event') {
+          currentEventScene = 'company'; // Switch to financials view
+        }else if (currentEventScene === 'financials') {
+          currentEventScene = 'event'; // Switch back to description view
+        }else if (currentEventScene === 'report') {
+          currentEventScene = 'financials'; // Switch to financials view
+        }
+
+        //set the red, green, and blue variables to a random value
+        console.log("click left button");
+
+	  } 
+
+    else if ((mouseX > width - btnWidth - btnX) && (mouseX <  width - btnWidth - btnX + btnWidth) &&
+        (mouseY > btnY) && (mouseY < btnY + btnHeight)) {
+        //RIGHT BUTTON 
+
+        if (currentEventScene === 'company') {
+          currentEventScene = 'event'; // Switch to financials view
+        }else if (currentEventScene === 'event') {
+          currentEventScene = 'financials'; // Switch to financials view
+        }else if (currentEventScene === 'financials') {
+          currentEventScene = 'report'; // Switch back to description view
+        }else if (currentEventScene === 'report') {
+          currentScene = 2;
+          
+          //set scene to company intro for first month, otherwise get straight into the event
+          var targetDate = new Date('1995-01-27');
+          if (currentDate < targetDate){
+            currentEventScene = 'company';
+          } else {
+            currentEventScene = 'event';
+          }
+          eventSong.pause();
+      }
+        
+        //set the red, green, and blue variables to a random value
+        console.log("click right button");
+
+	  } 
+
+  }
+    
 }
 
 

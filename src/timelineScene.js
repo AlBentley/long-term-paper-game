@@ -34,6 +34,8 @@ function drawTimeLine() {
   drawStocks(rowIndex);
 
   drawUpdateLog();
+
+  displayTimeLine();
  
 }
 
@@ -48,13 +50,13 @@ function drawUpdateLog(){
   fill(50); // Dark grey background for contrast
   strokeWeight(2);
   stroke(233,28,159);
-  rect(terminalRight -  (terminalWidth/3), terminalBottom - 90, (terminalWidth/3), 90);
+  rect(terminalRight -  (terminalWidth/2.5), terminalBottom - 90, (terminalWidth/2.5), 90);
   strokeWeight(0);
   fill(255);
   for (var i = 0; i < 7 ; i++) { 
 
     let txt = tradeLog[i];
-    text(txt, terminalRight -  (terminalWidth/3) + 5, terminalBottom - (i * 12) - 5);
+    text(txt, terminalRight -  (terminalWidth/2.5) + 5, terminalBottom - (i * 12) - 5);
     
   };
 
@@ -213,7 +215,8 @@ function incrementDay() {
 function displayDate() {
   textSize(14); // Reset text size for the date display
   textStyle(BOLD);
-  text("Goldman XXX Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop +2);
+  textAlign(LEFT, TOP);
+  text("Goldman Slush Fund " + currentDate.toDateString().substring(4, 10) + " " + currentDate.getFullYear(), terminalLeft, terminalTop);
 }
 
 function displayInstruction() {
