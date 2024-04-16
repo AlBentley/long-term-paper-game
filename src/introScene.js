@@ -56,9 +56,9 @@ function drawOnboarding() {
   background(bgBoss);
   // Draw "paper"
   let paperX = width / 6;
-  let paperY = height / 2;
+  let paperY = height / 2.5;
   let paperWidth = (width / 3) * 2;
-  let paperHeight = height / 2; // Adjusted for only showing the description
+  let paperHeight = height / 1.5; // Adjusted for only showing the description
 
   fill(0); // White paper
   noStroke();
@@ -69,7 +69,8 @@ function drawOnboarding() {
   textSize(24);
   textAlign(CENTER, CENTER);
 
-  textSize(16);
+  textSize(13);
   textAlign(LEFT, TOP);
-  text("ONBOARDING", paperX + 20, paperY + 30, paperWidth - 40); // Adjust padding as necessary
+  let txt = "The aim of “Investing at Goldmans” is to practice long term investing. \n\nAll the events, prices and financial data in the game are from real companies which traded in the 1990s and 2000s.\n\nTheir names and the names of competitors have been changed.\n\nInstead of trying to time the market, you need to estimate the fair value.\n\n\nHOW TO PLAY?\nThe game follows 5 companies over a 10 year period from 1995 to 2005.\n\nRead the background and look at the financials for each company to forecast the revenue, earnings and PE multiple to estimate a fair value.\n\nThe trading desk will buy and sell on your behalf. They allocate more to the undervalued stocks and less (or none) for overvalued ones.\n\nEach time a new earnings report is released you have the opportunity to update your forecasts and fair value.\n\nBefore starting you will be asked to submit a fair value for all 5 companies.\n\n\nPro Tip: Use the cursor keys and Enter to quickly navivgate and submit reports."
+  text(txt, paperX + 20, paperY + 20, paperWidth - 40); // Adjust padding as necessary
 }

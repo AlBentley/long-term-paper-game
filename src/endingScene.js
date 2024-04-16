@@ -35,14 +35,14 @@
      txt += "\n\n\n\n ";
 
     if(bankBalance > 500000){
-        txt+="Great job Intern!!\n\n You've returned our fund five times over. You've earned that promotion to Junior Analyst. \n\n Now I have a plane to catch.\n\n Stay liquid\n-Chad"
+        txt+="Great job Intern!!\n\n You've returned our fund five times over. You've earned that promotion to Junior Analyst. \n\n I can reveal that one of the stocks was Halliburton. \n\n\n Now I have a private jet to catch.\n\n Stay liquid\n-Chad"
         ///reveal the stock shere
     }
     else if(bankBalance >100000){
         txt+="Better luck next time Intern!\n\n Maybe try your hand at the pokies.\n\n Stay liquid\n-Chad"
     }
     else {
-        txt+="You've ruined us!!\n\n I'll have to sell the rolls just to keep the company afloat.\n\n Get out of my sight."
+        txt+="You've ruined us!!\n\n I'll have to sell the rolls just to keep the fund afloat.\n\n Get out of my sight."
     }
     text(txt, paperX + 20, paperY + 30, paperWidth - 40); // Adjust padding as necessary
   }
